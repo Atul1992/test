@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <p:fieldset legend="Your Selection">
+        <p:panelGrid id="customerDetails" style="width:60%;">
+            <p:row>
+                <p:column>
+                    <h:outputText value="Zip Code:" styleClass="boldOnly"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{providerController.zipCode}" styleClass="boldOnly"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <h:outputText value="TSDP/EDC:" styleClass="boldOnly"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{providerController.selectedEdcTdsp.edcName} (#{providerController.selectedEdcTdsp.serviceArea})"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <h:outputText value="Current Rate:" styleClass="boldOnly"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{providerController.enrollment.currentRate}"/>
+                    <h:outputText value=" (c/WH)"/>
+                </p:column>
+            </p:row>
+        </p:panelGrid>
+
+        <p:outputPanel layout="block" style="margin-top:15px" rendered="#{providerController.enrollment.enrollmentType eq 'M'}">
+            <ui:include src="productSelection.xhtml"/>
+        </p:outputPanel>
+
+    </p:fieldset>
+
+    <p:outputPanel style="margin-top:15px" rendered="#{providerController.enrollment.enrollmentType eq 'C'}">
+        <ui:include src="customizedCommercialReg.xhtml"/>
+    </p:outputPanel>
+
+</ui:composition>

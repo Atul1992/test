@@ -1,0 +1,59 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                template="../layout/template.xhtml">
+
+    <ui:define name="title">
+        <h:outputText value="System Admin Login"/>
+    </ui:define>
+    <ui:define name="javascript">
+        <script type="text/javascript">
+            jQuery(document).ready(function(){
+                jQuery("#emailField").focus();
+            });
+        </script>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="loginForm" prependId="false">
+
+            <p:fieldset legend="Login">
+                <p:messages id="loginMessages" autoUpdate="true"/>
+                <p:panelGrid id="loginPanelGrid" style="margin-top:5px;">
+                    <f:facet name="header">
+                        <p:row>
+                            <p:column colspan="2">
+                                <h:outputText value="System Admin Login" styleClass="boldOnly"/>
+                            </p:column>
+                        </p:row>
+                    </f:facet>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Email: " styleClass="boldOnly"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="emailField" value="#{loginController.email}" size="40" required="true" label="Email"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Password: " styleClass="boldOnly"/>
+                        </p:column>
+                        <p:column>
+                            <p:password value="#{loginController.password}" size="30" required="true" label="Password"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="2">
+                            <p:commandButton value="Login" action="#{loginController.systemLoginAction}"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </p:fieldset>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

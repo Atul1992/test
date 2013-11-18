@@ -1,0 +1,26 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:outputPanel layout="block">
+        <p:fieldset legend="Account">
+            <p:panel>
+                <p:outputPanel rendered="#{empty providerController.agentLoginContact}">
+                    <h:outputText value="Congratulations!! Your account has been created successfully!"/>
+                    <br/><br/>
+                    <p:commandLink value="Click Here" styleClass="boldOnly" ajax="false" action="/pages/login?faces-redirect=true"/>
+                    <h:outputText value=" to log into your account"/>
+                </p:outputPanel>
+                <p:outputPanel rendered="#{not empty providerController.agentLoginContact}">
+                    <h:outputText value="Congratulations!! The customer's account has been created successfully!"/>
+                    <br/><br/>
+                    <p:commandLink value="Click Here" styleClass="boldOnly" ajax="false" action="/pages/agentHome?faces-redirect=true"/>
+                    <h:outputText value=" to go back to home page"/>
+                    <br/>
+                    <p:commandLink value="Create Another Account" styleClass="boldOnly" ajax="false" action="/pages/searchProviders?faces-redirect=true"/>
+                </p:outputPanel>
+            </p:panel>
+        </p:fieldset>
+    </p:outputPanel>
+</ui:composition>

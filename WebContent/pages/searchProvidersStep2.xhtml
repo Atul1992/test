@@ -1,0 +1,50 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:fieldset legend="EDC/TDSP">
+        <p:messages id="step2Messages"/>
+        <h:panelGrid id="edcPanelGrid" border="0" width="50%" cellpadding="4"
+                     cellspacing="0" columns="2" style="margin-top:15px;">
+            <h:panelGroup>
+                <h:outputText value="Zip Code:" styleClass="boldOnly"/>
+            </h:panelGroup>
+            <h:outputText value="#{providerController.zipCode}" styleClass="boldOnly"/>
+
+            <h:panelGroup>
+                <h:outputText value="TSDP/EDC:" styleClass="boldOnly"/>
+            </h:panelGroup>
+            <h:panelGroup>
+                <p:selectOneMenu value="#{providerController.edcId}" effect="fade"
+                                 required="true" label="TSDP/EDC"
+                                 rendered="#{empty providerController.selectedEdcTdsp}">
+                    <f:selectItem itemLabel="Select One" itemValue=""/>
+                    <f:selectItems value="#{providerController.edcTdspList}"
+                                   var="edc" itemLabel="#{edc.edcName} (#{edc.serviceArea})" itemValue="#{edc.edcId}"/>
+                </p:selectOneMenu>
+                <h:outputText value="#{providerController.selectedEdcTdsp.edcName} (#{providerController.selectedEdcTdsp.serviceArea})"
+                              rendered="#{not empty providerController.selectedEdcTdsp}"/>
+            </h:panelGroup>
+
+            <h:panelGroup>
+                <h:outputText value="Current Rate:" styleClass="boldOnly"/>
+            </h:panelGroup>
+            <h:panelGroup>
+                <h:inputText id="currentRate" value="#{providerController.enrollment.currentRate}" size="15" required="true" label="Current Rate"/>
+                <h:outputText value=" cents/KWH" styleClass="boldOnly"/>
+            </h:panelGroup>
+        </h:panelGrid>
+        <p:outputPanel layout="block" style="margin-top:10px;">
+            <p:commandButton id="matrixPriceButton" update="@form"
+                             action="#{providerController.matrixEnrollmentAction('M')}"
+                             icon="ui-icon-check" value="Matrix Pricing"/>
+            <p:commandButton id="customPriceButton" update="@form"
+                             action="#{providerController.matrixEnrollmentAction('C')}"
+                             rendered="#{providerController.enrollment.customerType eq 'B'}"
+                             icon="ui-icon-check" value="Customized Pricing"/>
+        </p:outputPanel>
+    </p:fieldset>
+
+</ui:composition>

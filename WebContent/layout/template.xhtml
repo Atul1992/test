@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<f:view contentType="text/html">
+    <h:head>
+        <title>
+            <ui:insert name="title">
+                [Page title will be inserted here]
+            </ui:insert>
+        </title>
+        <f:facet name="first">
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <meta http-equiv="pragma" content="no-cache"/>
+            <meta http-equiv="cache-control" content="no-cache"/>
+            <meta http-equiv="expires" content="0"/>
+        </f:facet>
+        <h:outputStylesheet library="css" name="screen.css"/>
+        <f:facet name="last">
+            <h:outputStylesheet library="css" name="prime.css"/>
+        </f:facet>
+        <!--<link rel="shortcut icon" type="image/x-icon" href="${request.contextPath}/resources/images/favicon.ico"/>-->
+        <h:outputScript library="js" name="piggy.js"/>
+        <ui:insert name="javascript"/>
+    </h:head>
+
+    <h:body>
+        <p:dialog modal="true" widgetVar="statusDialog" header="Processing..."
+                  draggable="true" closable="false">
+            <p:graphicImage library="images" name="ajaxloadingbar.gif"/>
+        </p:dialog>
+
+        <p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>
+
+        <div id="container">
+            <div id="header">
+                <h1>
+                    <ui:insert name="header">
+                        <h1 style="color:orangered;">Smart Energy, Strong Savings</h1>
+                    </ui:insert>
+                </h1>
+            </div>
+            <div id="line"></div>
+            <div id="menu">
+                <h:form prependId="false">
+                    <p:menubar>
+                        <p:submenu label="Home" icon="ui-icon-home"
+                                   rendered="#{empty applicationController.contact}">
+                            <p:menuitem value="Search Providers" icon="ui-icon-search" ajax="false"
+                                        action="/main?faces-redirect=true"/>
+                            <p:menuitem value="Manage" icon="ui-icon-lightbulb" ajax="false"
+                                        action="/pages/manage?faces-redirect=true"/>
+                            <p:menuitem value="Customer Login" icon="ui-icon-lightbulb" ajax="false"
+                                        action="/pages/login?faces-redirect=true"/>
+                            <p:menuitem value="System Admin Login" icon="ui-icon-lightbulb" ajax="false"
+                                        action="/pages/systemLogin?faces-redirect=true"/>
+                            <p:menuitem value="Agent Login" icon="ui-icon-lightbulb" ajax="false"
+                                        action="/pages/agentLogin?faces-redirect=true"/>
+                        </p:submenu>
+                        <f:facet name="options">
+                            <p:outputPanel rendered="#{not empty applicationController.contact}">
+                                <p:commandButton value="Logout" icon="ui-icon-extlink"
+                                                 action="#{applicationController.logoutAction}"/>
+                            </p:outputPanel>
+                        </f:facet>
+                    </p:menubar>
+                </h:form>
+            </div>
+            <div id="content">
+                <ui:insert name="content">
+                    [Template content will be inserted here]
+                </ui:insert>
+            </div>
+            <div id="footer" align="center">
+                © 2013 innowatts.com. All rights reserved
+            </div>
+        </div>
+    </h:body>
+
+</f:view>
+
+</html>
+

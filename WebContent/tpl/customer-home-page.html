@@ -1,0 +1,187 @@
+<!-- header -->
+<div data-role="header" id="header">
+    <h1>
+        <a href="#">
+            <img src="img/logo_innowatts.png" width="145" height="65"/>
+        </a>
+    </h1>
+    <a href="#" data-icon="delete" data-theme="b" data-role="button" id="logout">Logout</a>
+</div>
+<div id="line">
+    Customer -
+    <% if(enrollment.residential) { %>
+    Residential
+    <% } else if (enrollment.commercial) {%>
+    Commercial
+    <% }; %>
+</div>
+<div data-role="navbar">
+    <ul>
+        <li>
+            <a class="ui-btn-active">Logged in User: <%=contact.email%></a>
+        </li>
+    </ul>
+</div>
+<div data-role="content">
+    <div data-role="collapsible" data-theme="b" data-content-theme="d"
+         data-collapsed="false" data-collapsed-icon="arrow-d"
+         data-expanded-icon="arrow-u" data-iconpos="right" data-inset="true">
+        <h2>
+            Enrollment
+            <% if(enrollment.matrix) { %>
+            (Matrix)
+            <% } else if (enrollment.customized) {%>
+            (Customized)
+            <% }; %>
+        </h2>
+        <p>
+            <strong>Enrollment Status:</strong> <%=enrollment.status.statusDescription%>
+        </p>
+        <% if(enrollment.residential) { %>
+            <p>
+                <strong>Service Start Date Requested:</strong> <%=enrollment.serviceStartDateReqStr%>
+            </p>
+            <p>
+                <strong>Smart Meter:</strong> <%=enrollment.smartMeter%>
+            </p>
+            <p>
+                <strong>Billing Address:</strong> <%=enrollment.residentialAccount.billingContact.fullAddress%>
+            </p>
+            <p>
+                <strong>Service Address:</strong> <%=enrollment.residentialAccount.serviceContact.fullAddress%>
+            </p>
+        <% } %>
+        <% if(enrollment.commercial) { %>
+            <p>
+                <strong>Company Name:</strong> <%=enrollment.businessAccount.companyName%>
+            </p>
+            <p>
+                <strong>Business Type:</strong> <%=enrollment.businessAccount.businessType.businessTypeName%>
+            </p>
+            <p>
+                <strong>Federal Tax ID:</strong> <%=enrollment.businessAccount.federalTaxId%>
+            </p>
+            <p>
+                <strong>Service Start Date Requested:</strong> <%=enrollment.serviceStartDateReqStr%>
+            </p>
+            <p>
+                <strong>Smart Meter:</strong> <%=enrollment.smartMeter%>
+            </p>
+            <p>
+                <strong>Billing Address:</strong> <%=enrollment.businessAccount.billingContact.fullAddress%>
+            </p>
+            <p>
+                <strong>Service Address(es):</strong>
+            </p>
+            <p>
+                <ul data-role="listview" data-inset="true" data-theme="c">
+                <%
+                    _.each(enrollment.businessAccount.serviceAddresses, function (serviceAddresses) {
+                %>
+                <li>
+                    <h1><%= serviceAddresses.serviceContact.fullAddress %></h1>
+                    <p>
+                        ESI: <span class="bold"><%= serviceAddresses.esi%></span>
+                    </p>
+                    <p>
+                        Utility A/c: <span class="bold"><%= serviceAddresses.utilityAccountNo%></span>
+                    </p>
+                </li>
+                <% });%>
+                </ul>
+            </p>
+        <% } %>
+    </div>
+
+    <% if(enrollment.matrix) { %>
+        <div data-role="collapsible" data-theme="b" data-content-theme="d"
+             data-collapsed="false" data-collapsed-icon="arrow-d"
+             data-expanded-icon="arrow-u" data-iconpos="right" data-inset="true">
+            <h2>Product Enrolled</h2>
+            <p>
+                <strong>Product:</strong> <%=enrollment.product.productName%>
+            </p>
+            <p>
+                <strong>TDSP/EDC:</strong> <%=enrollment.product.edcTdsp.edcName%>
+            </p>
+            <p>
+                <strong>REP:</strong> <%=enrollment.product.rep.repName%>
+            </p>
+            <p>
+                <strong>Energy Type:</strong> <%=enrollment.product.energyType%>
+            </p>
+            <p>
+                <strong>Rate:</strong> <%=enrollment.product.rate%> (cents/KWh)
+            </p>
+        </div>
+    <% }; %>
+
+    <% if(enrollment.customized) { %>
+        <div data-role="collapsible" data-theme="b" data-content-theme="d"
+             data-collapsed="false" data-collapsed-icon="arrow-d"
+             data-expanded-icon="arrow-u" data-iconpos="right" data-inset="true">
+            <h2>Enrollment Preferences</h2>
+            <p>
+                <strong>REP:</strong> <%=enrollment.preferences.rep.repName%>
+            </p>
+            <p>
+                <strong>Product Type:</strong> <%=enrollment.preferences.productType.description%>
+            </p>
+            <p>
+                <strong>Product Term:</strong> <%=enrollment.preferences.productTerm%>
+            </p>
+            <p>
+                <strong>Notification Interval:</strong> <%=enrollment.preferences.notificationInterval%>
+            </p>
+            <p>
+                <strong>Factors Important to you:</strong>
+            </p>
+            <p>
+                <ul data-role="listview" data-inset="true" data-theme="c" data-mini="true">
+                    <% if(enrollment.preferences.savingsBool) { %>
+                        <li>
+                            <p>Savings</p>
+                        </li>
+                    <% } %>
+                    <% if(enrollment.preferences.rewardsPointsBool) { %>
+                        <li>
+                            <p>Rewards Points</p>
+                        </li>
+                    <% } %>
+                    <% if(enrollment.preferences.customerServiceBool) { %>
+                        <li>
+                            <p>Customer Service</p>
+                        </li>
+                    <% } %>
+                    <% if(enrollment.preferences.smartEnergySolutionsBool) { %>
+                        <li>
+                            <p>Smart Energy Solutions</p>
+                        </li>
+                    <% } %>
+                </ul>
+            </p>
+        </div>
+        <div data-role="collapsible" data-theme="b" data-content-theme="d"
+             data-collapsed="false" data-collapsed-icon="arrow-d"
+             data-expanded-icon="arrow-u" data-iconpos="right" data-inset="true">
+            <h2>Letter of Authorization</h2>
+            <p>
+                <strong>LOA Personal First Name:</strong> <%=enrollment.loaPersonalFirstName%>
+            </p>
+            <p>
+                <strong>LOA Personal Last Name:</strong> <%=enrollment.loaPersonalLastName%>
+            </p>
+            <p>
+                <strong>LOA Personal Title:</strong> <%=enrollment.loaPersonalTitle%>
+            </p>
+            <p>
+                <strong>LOA Personal Contact:</strong> <%=enrollment.loaPersonalContact.fullAddress%>
+            </p>
+        </div>
+    <% }; %>
+</div>
+<!-- footer -->
+<div data-role="footer" id="footer" data-position="fixed" data-theme="d">
+    <h4 style="font-size:11px;"><%=config.copyright%></h4>
+
+</div>

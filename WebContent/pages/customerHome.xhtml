@@ -1,0 +1,464 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                template="../layout/template.xhtml">
+
+<ui:define name="title">
+    <h:outputText value="Customer Home"/>
+</ui:define>
+<ui:define name="javascript">
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+
+        });
+    </script>
+</ui:define>
+<ui:define name="content">
+    <h:form id="customerForm" prependId="false">
+        <p:panel rendered="#{empty customerController.enrollment}">
+            <h:outputText value="Please log in first."/>
+            <br/><br/>
+            <p:commandLink value="Click here" styleClass="boldOnly" ajax="false" action="/pages/login?faces-redirect=true"/> to log in
+        </p:panel>
+        <p:outputPanel rendered="#{not empty customerController.enrollment}">
+            <p:fieldset legend="Welcome">
+                <p:outputPanel layout="block" style="margin-top:10px;">
+                    <h:outputText value="Residential" styleClass="bigStyle" style="color:#8a2be2;"
+                                  rendered="#{not empty customerController.enrollment.residentialAccount}"/>
+                    <h:outputText value="Commercial" styleClass="bigStyle" style="color:orange;"
+                                  rendered="#{not empty customerController.enrollment.businessAccount}"/>
+                </p:outputPanel>
+                <p:panelGrid id="residentialCustomerGrid" style="margin-top:5px;width:100%;" rendered="#{not empty customerController.enrollment.residentialAccount}">
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="First Name: " styleClass="boldOnly"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{customerController.enrollment.residentialAccount.firstName}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="Last Name: " styleClass="boldOnly"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{customerController.enrollment.residentialAccount.lastName}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Service Address: " styleClass="boldOnly"/>
+                        </p:column>
+                        <p:column colspan="3">
+                            <h:outputText
+                                    value="#{customerController.enrollment.residentialAccount.serviceContact.fullAddress}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Billing Address: " styleClass="boldOnly"/>
+                        </p:column>
+                        <p:column colspan="3">
+                            <h:outputText
+                                    value="#{customerController.enrollment.residentialAccount.billingContact.fullAddress}"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+
+                <p:panelGrid id="businessCustomerGrid" style="margin-top:5px;width:100%;" rendered="#{not empty customerController.enrollment.businessAccount}">
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Company Name: " styleClass="boldOnly"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{customerController.enrollment.businessAccount.companyName}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="Business Type: " styleClass="boldOnly"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{customerController.enrollment.businessAccount.businessType.businessTypeName}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Billing Address: " styleClass="boldOnly"/>
+                        </p:column>
+                        <p:column colspan="3">
+                            <h:outputText
+                                    value="#{customerController.enrollment.businessAccount.billingContact.fullAddress}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="4">
+                            <p:dataTable value="#{customerController.enrollment.businessAccount.serviceAddressList}"
+                                         var="serviceAddr" style="width:100%;margin-top:5px;" headerClass="header">
+                                <f:facet name="header">
+                                    <h:outputText value="Service Address(es)"/>
+                                </f:facet>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Contact Name"/>
+                                    </f:facet>
+                                    <h:outputText value="#{serviceAddr.serviceContact.contactName}" styleClass="boldOnly"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Address Line 1"/>
+                                    </f:facet>
+                                    <h:outputText value="#{serviceAddr.serviceContact.addressLine1}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Address Line 2"/>
+                                    </f:facet>
+                                    <h:outputText value="#{serviceAddr.serviceContact.addressLine2}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="City"/>
+                                    </f:facet>
+                                    <h:outputText value="#{serviceAddr.serviceContact.cityName}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="State"/>
+                                    </f:facet>
+                                    <h:outputText value="#{serviceAddr.serviceContact.stateName}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Zip Code"/>
+                                    </f:facet>
+                                    <h:outputText value="#{serviceAddr.serviceContact.zipCode}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Country"/>
+                                    </f:facet>
+                                    <h:outputText value="#{serviceAddr.serviceContact.country}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Utility Account No"/>
+                                    </f:facet>
+                                    <h:outputText value="#{serviceAddr.utilityAccountNo}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="ESI"/>
+                                    </f:facet>
+                                    <h:outputText value="#{serviceAddr.ESI}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+
+                <p:panelGrid id="preferencesGrid" style="margin-top:5px;width:100%;"
+                             rendered="#{customerController.enrollment.customized and not empty customerController.enrollment.preferences}">
+                    <f:facet name="header">
+                        <p:row>
+                            <p:column colspan="4">
+                                <h:outputText value="Preferences" styleClass="boldOnly"/>
+                            </p:column>
+                        </p:row>
+                    </f:facet>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Current REP" styleClass="boldOnly"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{customerController.enrollment.preferences.rep.repName}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="Energy Type" styleClass="boldOnly"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{customerController.enrollment.preferences.enerygyType}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Product Type" styleClass="boldOnly"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{customerController.enrollment.preferences.productType.description}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="Product Term" styleClass="boldOnly"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{customerController.enrollment.preferences.productTerm}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Notification Interval" styleClass="boldOnly"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{customerController.enrollment.preferences.notificationInterval}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="What is important to you?:" styleClass="boldOnly"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectBooleanCheckbox value="#{customerController.enrollment.preferences.savingsBool}" disabled="true"/>
+                            <h:outputText value=" Savings" style="vertical-align: middle;"/>
+                            <br/>
+                            <p:selectBooleanCheckbox value="#{customerController.enrollment.preferences.rewardsPointsBool}" disabled="true"/>
+                            <h:outputText value=" Reward Points" style="vertical-align: middle;"/>
+                            <br/>
+                            <p:selectBooleanCheckbox value="#{customerController.enrollment.preferences.customerServiceBool}" disabled="true"/>
+                            <h:outputText value=" Customer Service" style="vertical-align: middle;"/>
+                            <br/>
+                            <p:selectBooleanCheckbox value="#{customerController.enrollment.preferences.smartEnergySolutionsBool}" disabled="true"/>
+                            <h:outputText value=" Smart Energy Solutions" style="vertical-align: middle;"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </p:fieldset>
+
+            <p:fieldset style="margin-top:10px;" rendered="#{not empty customerController.enrollment.customizedQuoteList and empty customerController.enrollment.product}">
+                <p:outputPanel layout="block" style="margin-top:15px">
+                    <p:growl id="messages" showDetail="false" autoUpdate="true"/>
+                    <h:outputText value="Customized Products:" styleClass="bigStyle" style="color:#333366;"/>
+                    <p:dataTable value="#{customerController.enrollment.customizedQuoteList}" var="custQuote" style="margin-top:10px;"
+                                 border="1" cellpadding="3" cellspacing="0" headerClass="header"
+                                 sortBy="#{custQuote.product.savingsPercentage}" sortOrder="DESCENDING">
+                        <f:facet name="header">
+                            <h:outputText value="Total #{fn:length(customerController.enrollment.customizedQuoteList)} plans found"/>
+                        </f:facet>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Select"/>
+                            </f:facet>
+                            <p:commandButton id="productButton" action="#{customerController.updateProductAction(custQuote.product)}"
+                                             onclick="if(!confirm('Are you sure?')) return false;"
+                                             value="Select this Plan"
+                                             update="@form"
+                                             title="Click to Select Product [#{custQuote.product.productName}]"
+                                             icon="ui-icon-check"/>
+                        </p:column>
+                        <p:column sortBy="#{custQuote.product.productName}">
+                            <f:facet name="header">
+                                <h:outputText value="Plan Name"/>
+                            </f:facet>
+                            <h:outputText value="#{custQuote.product.productName}" styleClass="boldOnly"/>
+                        </p:column>
+                        <p:column sortBy="#{custQuote.product.rep.repName}">
+                            <f:facet name="header">
+                                <h:outputText value="Provider"/>
+                            </f:facet>
+                            <h:outputText value="#{custQuote.product.rep.repName}"/>
+                        </p:column>
+                        <p:column sortBy="#{custQuote.product.energyType}">
+                            <f:facet name="header">
+                                <h:outputText value="Energy Type"/>
+                            </f:facet>
+                            <h:outputText value="#{custQuote.product.energyType}"/>
+                        </p:column>
+                        <p:column sortBy="#{custQuote.product.contractTerm}">
+                            <f:facet name="header">
+                                <h:outputText value="Contract"/>
+                                <br/>
+                                <h:outputText value="Term"/>
+                            </f:facet>
+                            <h:outputText value="#{custQuote.product.contractTerm}"/>
+                        </p:column>
+                        <p:column sortBy="#{custQuote.product.earlyCancelFees}">
+                            <f:facet name="header">
+                                <h:outputText value="Early Cancel"/>
+                                <br/>
+                                <h:outputText value="Fees ($)"/>
+                            </f:facet>
+                            <h:outputText value="#{custQuote.product.earlyCancelFees}"/>
+                        </p:column>
+                        <p:column sortBy="#{custQuote.product.validTo}">
+                            <f:facet name="header">
+                                <h:outputText value="Valid Upto"/>
+                            </f:facet>
+                            <h:outputText value="#{custQuote.product.validTo}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" timeZone="CST"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column sortBy="#{custQuote.product.pricingType}">
+                            <f:facet name="header">
+                                <h:outputText value="Pricing"/>
+                                <br/>
+                                <h:outputText value="Type"/>
+                            </f:facet>
+                            <h:outputText value="#{custQuote.product.pricingType}"/>
+                        </p:column>
+                        <p:column sortBy="#{custQuote.product.rate}">
+                            <f:facet name="header">
+                                <h:outputText value="Rate"/>
+                                <br/>
+                                <h:outputText value="(c/KWH)"/>
+                            </f:facet>
+                            <h:outputText value="#{custQuote.product.rate}">
+                                <f:convertNumber maxFractionDigits="2"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </p:fieldset>
+
+            <p:fieldset style="margin-top:10px;" rendered="#{not empty customerController.enrollment.product}">
+                <p:outputPanel layout="block" style="margin-top:15px">
+                    <h:outputText value="Your Plan" styleClass="bigStyle" style="color:#333366;"/>
+                    <p:dataTable value="#{customerController.enrollment.product}" var="currProduct" style="margin-top:10px;"
+                                 border="1" cellpadding="3" cellspacing="0">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Plan Name"/>
+                            </f:facet>
+                            <h:outputText value="#{customerController.enrollment.product.productName}" styleClass="boldOnly"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Provider"/>
+                            </f:facet>
+                            <h:outputText
+                                    value="#{customerController.enrollment.product.edcTdsp.edcName} (#{customerController.enrollment.product.edcTdsp.serviceArea})"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Energy Type"/>
+                            </f:facet>
+                            <h:outputText value="#{customerController.enrollment.product.energyType}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Contract"/>
+                                <br/>
+                                <h:outputText value="Term"/>
+                            </f:facet>
+                            <h:outputText value="#{customerController.enrollment.product.contractTerm}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Early Cancel"/>
+                                <br/>
+                                <h:outputText value="Fees ($)"/>
+                            </f:facet>
+                            <h:outputText value="#{customerController.enrollment.product.earlyCancelFees}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Pricing"/>
+                                <br/>
+                                <h:outputText value="Type"/>
+                            </f:facet>
+                            <h:outputText value="#{customerController.enrollment.product.pricingType}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Rate"/>
+                                <br/>
+                                <h:outputText value="(c/KWH)"/>
+                            </f:facet>
+                            <h:outputText value="#{customerController.enrollment.product.rate}">
+                                <f:convertNumber maxFractionDigits="2"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </p:fieldset>
+
+            <p:fieldset style="margin-top:10px;" rendered="#{not empty customerController.enrollment.product
+                                                                and not customerController.enrollment.customized }">
+                <p:outputPanel layout="block" style="margin-top:15px">
+                    <h:outputText value="Other Plans from the same TDSP/EDC:" styleClass="bigStyle" style="color:#333366;"/>
+                    <p:dataTable value="#{customerController.repProductsList}" var="product" style="margin-top:10px;"
+                                 border="1" cellpadding="3" cellspacing="0" headerClass="header"
+                                 sortBy="#{product.savingsPercentage}" sortOrder="DESCENDING">
+                        <f:facet name="header">
+                            <h:outputText value="Total #{fn:length(customerController.repProductsList)} plans found"/>
+                        </f:facet>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Select"/>
+                            </f:facet>
+                            <p:commandButton id="iconButton" action="#"
+                                             update="@form" title="Click to Select Product [#{product.productName}]"
+                                             icon="ui-icon-check"/>
+                        </p:column>
+                        <p:column sortBy="#{product.productName}">
+                            <f:facet name="header">
+                                <h:outputText value="Plan Name"/>
+                            </f:facet>
+                            <h:outputText value="#{product.productName}" styleClass="boldOnly"/>
+                        </p:column>
+                        <p:column sortBy="#{product.rep.repName}">
+                            <f:facet name="header">
+                                <h:outputText value="Provider"/>
+                            </f:facet>
+                            <h:outputText value="#{product.rep.repName}"/>
+                        </p:column>
+                        <p:column sortBy="#{product.energyType}">
+                            <f:facet name="header">
+                                <h:outputText value="Energy Type"/>
+                            </f:facet>
+                            <h:outputText value="#{product.energyType}"/>
+                        </p:column>
+                        <p:column sortBy="#{product.contractTerm}">
+                            <f:facet name="header">
+                                <h:outputText value="Contract"/>
+                                <br/>
+                                <h:outputText value="Term"/>
+                            </f:facet>
+                            <h:outputText value="#{product.contractTerm}"/>
+                        </p:column>
+                        <p:column sortBy="#{product.earlyCancelFees}">
+                            <f:facet name="header">
+                                <h:outputText value="Early Cancel"/>
+                                <br/>
+                                <h:outputText value="Fees ($)"/>
+                            </f:facet>
+                            <h:outputText value="#{product.earlyCancelFees}"/>
+                        </p:column>
+                        <p:column sortBy="#{product.validTo}">
+                            <f:facet name="header">
+                                <h:outputText value="Valid Upto"/>
+                            </f:facet>
+                            <h:outputText value="#{product.validTo}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" timeZone="CST"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column sortBy="#{product.pricingType}">
+                            <f:facet name="header">
+                                <h:outputText value="Pricing"/>
+                                <br/>
+                                <h:outputText value="Type"/>
+                            </f:facet>
+                            <h:outputText value="#{product.pricingType}"/>
+                        </p:column>
+                        <p:column sortBy="#{product.savingsPercentage}">
+                            <f:facet name="header">
+                                <h:outputText value="Savings (%)"/>
+                            </f:facet>
+                            <h:outputText value="#{product.savingsPercentage}" styleClass="boldOnly"
+                                          style="color:#{product.savingsPercentage ge 0 ? 'black' : 'red'};">
+                                <f:convertNumber maxFractionDigits="2"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column sortBy="#{product.rate}">
+                            <f:facet name="header">
+                                <h:outputText value="Rate"/>
+                                <br/>
+                                <h:outputText value="(c/KWH)"/>
+                            </f:facet>
+                            <h:outputText value="#{product.rate}">
+                                <f:convertNumber maxFractionDigits="2"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </p:fieldset>
+        </p:outputPanel>
+    </h:form>
+</ui:define>
+
+</ui:composition>

@@ -1,0 +1,188 @@
+<!-- header -->
+<div data-role="header" id="header">
+    <a id="back" data-icon="back" data-theme="b" data-role="button">Back</a>
+    <h1>
+        <a href="#">
+            <img src="img/logo_innowatts.png" width="145" height="65"/>
+        </a>
+    </h1>
+    <a id="homeBtn" href="#" data-icon="home" data-theme="b" data-role="button">Home</a>
+</div>
+<div id="line"><%= customerType %> Registration</div>
+<div data-role="content">
+    <div data-role="collapsible" data-theme="b" data-content-theme="e"
+         data-collapsed="true" data-collapsed-icon="arrow-d"
+            data-expanded-icon="arrow-u" data-iconpos="right" data-inset="false">
+        <h2>Your selection</h2>
+        <p>
+            Zip Code: <%=zipCode%>
+        </p>
+        <p>
+            TDSP/EDC: <%=selectedProduct.edcTdsp.edcName%>
+        </p>
+        <p>
+            REP: <%=selectedProduct.rep.repName%>
+        </p>
+        <p>
+            Product: <%=selectedProduct.productName%>
+        </p>
+        <p>
+            Energy Type: <%=selectedProduct.energyType%>
+        </p>
+        <p>
+            Rate: <%=selectedProduct.rate%> (cents/KWh)
+        </p>
+    </div>
+    <br/>
+    <ul data-role="listview" id="loginDetails">
+        <li data-role="list-divider">Login Details:</li>
+        <li data-role="fieldcontain">
+            <label for="email">Email: </label>
+            <input type="email" name="email" id="email" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="password">Password: </label>
+            <input type="password" name="password" id="password" value="" />
+        </li>
+        <li data-role="list-divider">Personal Details:</li>
+        <li data-role="fieldcontain">
+            <label for="firstName">First Name: </label>
+            <input type="text" name="firstName" id="firstName" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="middleName">Middle Name: </label>
+            <input type="text" name="middleName" id="middleName" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="lastName">Last Name: </label>
+            <input type="text" name="lastName" id="lastName" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="birthDate">Birth Date: </label>
+            <input type="date" name="birthDate" id="birthDate" value="" data-role="datebox"
+                   data-options="{'mode': 'calbox', 'disableManualInput': true}"/>
+        </li>
+        <li data-role="fieldcontain">
+            <label for="ssn">SSN: </label>
+            <input type="text" name="ssn" id="ssn" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="driversLicenseNo">Driver's License: </label>
+            <input type="text" name="driversLicenseNo" id="driversLicenseNo" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="utilityAccountNo">Utility Account No.: </label>
+            <input type="text" name="utilityAccountNo" id="utilityAccountNo" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="esi">ESI: </label>
+            <input type="text" name="esi" id="esi" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="billingPhoneNo">Phone: </label>
+            <input type="tel" name="billingPhoneNo" id="billingPhoneNo" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="cellPhoneNo">Mobile Phone: </label>
+            <input type="tel" name="cellPhoneNo" id="cellPhoneNo" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="faxNo">Fax: </label>
+            <input type="tel" name="faxNo" id="faxNo" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="serviceStartDate">Service Start Date: </label>
+            <input type="date" name="serviceStartDate" id="serviceStartDate" value="" data-role="datebox"
+                   data-options="{'mode': 'calbox', 'disableManualInput': true}"/>
+        </li>
+        <li data-role="list-divider">Billing Address:</li>
+        <li data-role="fieldcontain">
+            <label for="billingAddressLine1">Address Line 1: </label>
+            <input type="text" name="billingAddressLine1" id="billingAddressLine1" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="billingAddressLine2">Address Line 2: </label>
+            <input type="text" name="billingAddressLine2" id="billingAddressLine2" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="billingCity">City: </label>
+            <input type="text" name="billingCity" id="billingCity" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="billingState">State: </label>
+            <select id="billingState" name="billingState">
+                <option value="">--Select--</option>
+                <option value="CA">California (CA)</option>
+                <option value="TX" selected>Texas (TX)</option>
+            </select>
+        </li>
+        <li data-role="fieldcontain">
+            <label for="billingZip">Zip Code: </label>
+            <input type="text" name="billingZip" id="billingZip" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="billingCountry">Country: </label>
+            <select id="billingCountry" name="billingCountry">
+                <option value="">--Select--</option>
+                <option value="USA" selected>USA</option>
+            </select>
+        </li>
+        <li data-role="list-divider">Service Address:</li>
+        <li data-role="fieldcontain">
+            <label for="sameAsBilling">Same as Billing</label>
+            <input type="checkbox" id="sameAsBilling" name="sameAsBilling">
+        </li>
+        <li data-role="fieldcontain">
+            <label for="serviceAddressLine1">Address Line 1: </label>
+            <input type="text" name="serviceAddressLine1" id="serviceAddressLine1" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="serviceAddressLine2">Address Line 2: </label>
+            <input type="text" name="serviceAddressLine2" id="serviceAddressLine2" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="serviceCity">City: </label>
+            <input type="text" name="serviceCity" id="serviceCity" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="serviceState">State: </label>
+            <select id="serviceState" name="serviceState">
+                <option value="">--Select--</option>
+                <option value="CA">California (CA)</option>
+                <option value="TX" selected>Texas (TX)</option>
+            </select>
+        </li>
+        <li data-role="fieldcontain">
+            <label for="serviceZip">Zip Code: </label>
+            <input type="text" name="serviceZip" id="serviceZip" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="serviceCountry">Country: </label>
+            <select id="serviceCountry" name="serviceCountry">
+                <option value="">--Select--</option>
+                <option value="USA" selected>USA</option>
+            </select>
+        </li>
+        <li data-role="list-divider">Others:</li>
+        <li data-role="fieldcontain">
+            <label for="smartMeter">Smart Meter: </label>
+            <select name="smartMeter" id="smartMeter" data-role="slider">
+                <option value="N">No</option>
+                <option value="Y">Yes</option>
+            </select>
+        </li>
+        <li data-role="fieldcontain">
+            <label for="termsConditions">I accept terms & conditions</label>
+            <input type="checkbox" id="termsConditions" name="termsConditions">
+        </li>
+    </ul>
+    <li data-role="fieldcontain">
+        <a id="enroll" data-role="button" data-theme="b"
+           data-icon="save" data-iconpos="left">Enroll</a>
+    </li>
+</div>
+<!-- footer -->
+<div data-role="footer" id="footer" data-position="fixed" data-theme="d">
+    <h4 style="font-size:11px;"><%=config.copyright%></h4>
+
+</div>

@@ -1,0 +1,287 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+<h:panelGrid width="100%" border="0" columns="2" cellpadding="4" cellspacing="0"
+             columnClasses="col3, col4">
+
+<p:outputPanel layout="block">
+    <p:messages id="step4Messages"/>
+    <p:fieldset legend="Login Information">
+        <p:panelGrid id="loginInfoPanelGrid" border="0" width="100%" cellpadding="2"
+                     cellspacing="0" style="margin-top:10px;width:100%;">
+            <p:row>
+                <p:column>
+                    <h:outputText value="Email: " styleClass="boldOnly"/>
+                </p:column>
+                <p:column colspan="3">
+                    <p:inputText value="#{providerController.enrollment.residentialAccount.billingContact.email}"
+                                 size="45"
+                                 required="true" label="Email"/>
+                    <h:outputText value=" (This will serve as your user name during login)"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <h:outputText value="Password:" styleClass="boldOnly"/>
+                </p:column>
+                <p:column>
+                    <p:password value="#{providerController.enrollment.residentialAccount.billingContact.password}"
+                                required="true" label="Password"
+                                size="25" feedback="true"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="Confirm Password:" styleClass="boldOnly"/>
+                </p:column>
+                <p:column>
+                    <p:password value="#{providerController.enrollment.residentialAccount.billingContact.password}"
+                                required="true" label="Confirm Password" size="25" feedback="true"/>
+                </p:column>
+            </p:row>
+        </p:panelGrid>
+    </p:fieldset>
+
+    <p:fieldset legend="General Information" style="margin-top:5px;">
+        <p:panelGrid id="generalInfoPanelGrid" style="margin-top:10px;width:100%;">
+            <p:row>
+                <p:column>
+                    <h:outputText value="First Name:" styleClass="boldOnly"/>
+                </p:column>
+                <p:column>
+                    <p:inputText value="#{providerController.enrollment.residentialAccount.firstName}" size="30"
+                                 required="true" label="First Name"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="Middle Name:" styleClass="boldOnly"/>
+                </p:column>
+                <p:column>
+                    <p:inputText value="#{providerController.enrollment.residentialAccount.middleName}" size="20"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <h:outputText value="Last Name:" styleClass="boldOnly"/>
+                </p:column>
+                <p:column>
+                    <p:inputText value="#{providerController.enrollment.residentialAccount.lastName}" size="30"
+                                 required="true" label="Last Name"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="SSN:" styleClass="boldOnly"/>
+                </p:column>
+                <p:column>
+                    <p:inputMask value="#{providerController.enrollment.residentialAccount.SSN}" size="30"
+                                 mask="999-99-9999"
+                                 required="true" label="SSN"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <h:outputText value="Birth Date:" styleClass="boldOnly"/>
+                </p:column>
+                <p:column>
+                    <p:calendar value="#{providerController.enrollment.residentialAccount.birthDate}"
+                                size="15" pattern="MM/dd/yyyy" mode="popup" showOn="both" navigator="true"
+                                required="true" label="Birth Date" maxdate="#{providerController.currentDate}"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="Driver's License:" styleClass="boldOnly"/>
+                </p:column>
+                <p:column>
+                    <p:inputText value="#{providerController.enrollment.residentialAccount.driversLicenseNo}" size="30"
+                                 required="true" label="Driver's License"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <h:outputText value="Phone:" styleClass="boldOnly"/>
+                </p:column>
+                <p:column>
+                    <p:inputMask value="#{providerController.enrollment.residentialAccount.billingContact.phoneNo}"
+                                 size="30" mask="(999) 999-9999"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="Mobile:" styleClass="boldOnly"/>
+                </p:column>
+                <p:column>
+                    <p:inputMask value="#{providerController.enrollment.residentialAccount.billingContact.cellPhoneNo}"
+                                 size="30" mask="(999) 999-9999"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <h:outputText value="Fax:" styleClass="boldOnly"/>
+                </p:column>
+                <p:column>
+                    <p:inputMask value="#{providerController.enrollment.residentialAccount.billingContact.faxNo}"
+                                 size="30" mask="(999) 999-9999"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="ESI:" styleClass="boldOnly"/>
+                </p:column>
+                <p:column>
+                    <p:inputText value="#{providerController.enrollment.residentialAccount.ESI}" size="30"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <h:outputText value="Service Start Date:" styleClass="boldOnly"/>
+                </p:column>
+                <p:column>
+                    <p:calendar id="serviceStartDate" value="#{providerController.enrollment.serviceStartDateRequested}"
+                                size="15" pattern="MM/dd/yyyy" mode="popup" showOn="both"
+                                required="true" label="Service Start Date" mindate="#{providerController.currentDate}"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="Utility Account No:" styleClass="boldOnly"/>
+                </p:column>
+                <p:column>
+                    <p:inputText value="#{providerController.enrollment.residentialAccount.utilityAccountNo}"
+                                 size="30"/>
+                </p:column>
+            </p:row>
+        </p:panelGrid>
+    </p:fieldset>
+
+    <p:panelGrid id="billingAddressPanelGrid" style="margin-top:5px;width:100%;">
+        <f:facet name="header">
+            <p:row>
+                <p:column colspan="4" style="text-align:left;">
+                    <h:outputText value="Billing Address"/>
+                </p:column>
+            </p:row>
+        </f:facet>
+        <ui:include src="addressInc.xhtml">
+            <ui:param name="contact" value="#{providerController.enrollment.residentialAccount.billingContact}"/>
+        </ui:include>
+    </p:panelGrid>
+
+    <p:panelGrid id="serviceAddressPanelGrid" style="margin-top:5px;width:100%;">
+        <f:facet name="header">
+            <p:row>
+                <p:column colspan="4" style="text-align:left;">
+                    <h:outputText value="Service Address"/>
+                    <p:spacer width="10"/>
+                </p:column>
+            </p:row>
+        </f:facet>
+        <p:row>
+            <p:column colspan="4">
+                <p:selectBooleanCheckbox value="#{providerController.copyAddress}" style="vertical-align:middle;">
+                    <p:ajax listener="#{providerController.copyAddressAction}" process="@this, billingAddressPanelGrid"
+                            update="serviceAddressPanelGrid, step4Messages"/>
+                </p:selectBooleanCheckbox>
+                <h:outputText value="Copy from Billing Address" styleClass="boldOnly"
+                              style="margin-left:3px;vertical-align: middle;color:blue;"/>
+            </p:column>
+        </p:row>
+        <ui:include src="addressInc.xhtml">
+            <ui:param name="contact" value="#{providerController.enrollment.residentialAccount.serviceContact}"/>
+        </ui:include>
+    </p:panelGrid>
+
+    <p:panel header="Smart Meter" style="margin-top:5px;padding:5px;">
+        <p:selectBooleanCheckbox value="#{providerController.enrollment.smartMeterBool}"
+                                 style="vertical-align:middle;"/>
+        <h:outputText value="Enroll me for Smart Meter" styleClass="boldOnly"
+                      style="margin-left:3px;vertical-align: middle;color:blue;"/>
+    </p:panel>
+
+    <p:panel header="Terms and Conditions" style="margin-top:5px;padding:5px;">
+        <p:selectBooleanCheckbox value="#{providerController.enrollment.termsAndConditionsBool}"
+                                 style="vertical-align:middle;"/>
+        <h:outputText value="I have read and agreed with the above terms and conditions." styleClass="boldOnly"
+                      style="margin-left:3px;vertical-align: middle;color:blue;"/>
+    </p:panel>
+
+    <p:outputPanel layout="block" style="margin-top:10px;text-align:center;">
+        <p:commandButton value="Register" action="#{providerController.createAccountAction}"
+                         icon="ui-icon-disk" update="@form, step4Messages"/>
+    </p:outputPanel>
+</p:outputPanel>
+
+<p:panel header="Selection Overview" toggleable="true" toggleSpeed="300" style="margin-left:20px;">
+    <h:panelGrid id="productPanelGrid" border="0" width="100%" cellpadding="2"
+                 cellspacing="2" columns="1">
+
+        <h:panelGroup>
+            <h:outputText value="Zip Code:" styleClass="boldOnly"/>
+        </h:panelGroup>
+        <h:outputText value="#{providerController.zipCode}"/>
+
+        <h:panelGroup>
+            <h:outputText value="TSDP/EDC:" styleClass="boldOnly"/>
+        </h:panelGroup>
+        <h:panelGroup>
+            <h:outputText
+                    value="#{providerController.selectedEdcTdsp.edcName} (#{providerController.selectedEdcTdsp.serviceArea})"/>
+        </h:panelGroup>
+
+        <h:panelGroup>
+            <h:outputText value="Product:" styleClass="boldOnly"/>
+        </h:panelGroup>
+        <h:outputText
+                value="#{providerController.selectedProduct.productName} (#{providerController.selectedProduct.rep.repName})"/>
+
+        <h:panelGroup>
+            <h:outputText value="Product Type:" styleClass="boldOnly"/>
+        </h:panelGroup>
+        <h:panelGroup>
+            <h:outputText value="#{providerController.selectedProduct.pricingType}"/>
+        </h:panelGroup>
+
+        <h:panelGroup>
+            <h:outputText value="Energy Type:" styleClass="boldOnly"/>
+        </h:panelGroup>
+        <h:panelGroup>
+            <h:outputText value="#{providerController.selectedProduct.energyType}"/>
+        </h:panelGroup>
+
+        <h:panelGroup>
+            <h:outputText value="Contract Term:" styleClass="boldOnly"/>
+        </h:panelGroup>
+        <h:panelGroup>
+            <h:outputText value="#{providerController.selectedProduct.contractTerm}"/>
+        </h:panelGroup>
+
+        <h:panelGroup>
+            <h:outputText value="Early Cancellation:" styleClass="boldOnly"/>
+        </h:panelGroup>
+        <h:panelGroup>
+            <h:outputText value="#{providerController.selectedProduct.earlyCancelFees}">
+                <f:convertNumber currencySymbol="$" groupingUsed="true"
+                                 maxFractionDigits="2" type="currency"/>
+            </h:outputText>
+        </h:panelGroup>
+
+        <h:panelGroup>
+            <h:outputText value="Current Rate:" styleClass="boldOnly"/>
+        </h:panelGroup>
+        <h:panelGroup>
+            <h:outputText value="#{providerController.enrollment.currentRate} (cents/KWH)"/>
+        </h:panelGroup>
+
+        <h:panelGroup>
+            <h:outputText value="Product Rate:" styleClass="boldOnly"/>
+        </h:panelGroup>
+        <h:panelGroup>
+            <h:outputText value="#{providerController.selectedProduct.rate} (cents/KWH)"/>
+        </h:panelGroup>
+
+        <h:panelGroup>
+            <h:outputText value="Savings:" styleClass="boldOnly"/>
+        </h:panelGroup>
+        <h:panelGroup>
+            <h:outputText value="#{providerController.selectedProduct.savingsPercentage}">
+                <f:convertNumber maxFractionDigits="2"/>
+            </h:outputText>
+            <h:outputText value="%"/>
+        </h:panelGroup>
+    </h:panelGrid>
+</p:panel>
+
+</h:panelGrid>
+
+</ui:composition>

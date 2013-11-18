@@ -1,0 +1,84 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+                template="../layout/template.xhtml">
+
+    <ui:define name="title">
+        <h:outputText value="Email test"/>
+    </ui:define>
+    <ui:define name="javascript">
+        <script type="text/javascript">
+            jQuery(document).ready(function () {
+                jQuery("#enrollmentId").focus();
+            });
+        </script>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="manageForm" prependId="false">
+            <p:outputPanel id="emailPanel">
+                <p:messages autoUpdate="true"/>
+
+                <p:fieldset legend="Email Test">
+                    <p:panelGrid id="agentGrid" style="margin-top:5px;">
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="Enrollment Id: " styleClass="boldOnly"/>
+                            </p:column>
+                            <p:column>
+                                <h:inputText id="enrollmentId" value="#{managementController.enrollmentId}" size="15"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                    <p:outputPanel layout="block" style="margin-top:5px;">
+                        <p:commandButton id="sendEmailBtn" value="Send Email"
+                                         action="#{managementController.sendEmail}" update="emailPanel"/>
+                    </p:outputPanel>
+                </p:fieldset>
+
+                <p:fieldset legend="All Configuration(s)" style="margin-top:10px;">
+                    <p:outputPanel layout="block" style="margin-top:5px;">
+                        <h:outputText value="Note:" styleClass="bigStyle"/><br/>
+                        <h:outputText value="Configuration data is coming from 'app_config' table and has
+                            been configured to be reload every 2 mins through timer job."
+                                      styleClass="bigStyle" style="color:blue;"/>
+                    </p:outputPanel>
+                    <p:dataTable id="configTable" value="#{managementController.configList}"
+                                 var="config" style="margin-top:10px;width:70%;">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Key"/>
+                            </f:facet>
+                            <h:outputText value="#{config.keyName}" styleClass="boldOnly"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Value"/>
+                            </f:facet>
+                            <h:outputText value="#{config.value}" rendered="#{not config.update}"/>
+                            <h:inputText id="editValue" value="#{config.value}" rendered="#{config.update}" size="25" maxlength="100"/>
+                        </p:column>
+                        <p:column width="120">
+                            <f:facet name="header">
+                                <h:outputText value="Action"/>
+                            </f:facet>
+                            <p:commandButton id="editConfigBtn" update="@form"
+                                             rendered="#{not config.update}"
+                                             action="#{managementController.editConfig(config)}"
+                                             icon="ui-icon-check" value="Edit"
+                                             oncomplete="jQuery('editValue').focus();"/>
+                            <p:commandButton id="updateConfigBtn" update="@form"
+                                             rendered="#{config.update}"
+                                             action="#{managementController.updateConfig(config)}"
+                                             icon="ui-icon-check" value="Update"/>
+                            <p:commandButton id="CancelConfigBtn" update="@form"
+                                             rendered="#{config.update}" style="margin-left:5px;"
+                                             action="#{managementController.cancelConfig(config)}"
+                                             icon="ui-icon-cancel" value="Cancel"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+            </p:outputPanel>
+        </h:form>
+    </ui:define>
+</ui:composition>

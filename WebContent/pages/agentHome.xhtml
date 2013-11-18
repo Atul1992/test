@@ -1,0 +1,197 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                template="../layout/template.xhtml">
+
+    <ui:define name="title">
+        <h:outputText value="Agent Home"/>
+    </ui:define>
+    <ui:define name="javascript">
+        <script type="text/javascript">
+            jQuery(document).ready(function () {
+
+            });
+        </script>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="agentForm" prependId="false">
+            <p:panel rendered="#{empty agentController.agentContact}">
+                <h:outputText value="Please log in first."/>
+                <br/><br/>
+                <p:commandLink value="Click here" styleClass="boldOnly" ajax="false" process="@this"
+                               action="/pages/agentLogin?faces-redirect=true"/> to log in
+            </p:panel>
+            <p:outputPanel rendered="#{not empty agentController.agentContact}">
+                <p:fieldset legend="Agent Information">
+                    <p:panelGrid id="agentGrid" style="margin-top:5px;width:100%;">
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="Name: " styleClass="boldOnly"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{agentController.agentContact.contactName}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="Email: " styleClass="boldOnly"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{agentController.agentContact.email}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="Phone: " styleClass="boldOnly"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{agentController.agentContact.phoneNo}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="Mobile: " styleClass="boldOnly"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{agentController.agentContact.cellPhoneNo}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="Address: " styleClass="boldOnly"/>
+                            </p:column>
+                            <p:column colspan="3">
+                                <h:outputText
+                                        value="#{agentController.agentContact.fullAddress}"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:fieldset>
+                <p:fieldset legend="Existing Customers" style="margin-top:10px;">
+                    <p:panelGrid id="searchGrid" style="margin-top:5px;width:60%;">
+                        <f:facet name="header">
+                            <p:row>
+                                <p:column colspan="4">
+                                    <h:outputText value="Enter Search Criteria" styleClass="boldOnly"/>
+                                </p:column>
+                            </p:row>
+                        </f:facet>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="Company Name: " styleClass="boldOnly"/>
+                            </p:column>
+                            <p:column>
+                                <h:inputText value="#{agentController.searchRequest.businessAccount.companyName}" size="30"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="Enrollment Status: " styleClass="boldOnly"/>
+                            </p:column>
+                            <p:column>
+                                <p:selectOneMenu value="#{agentController.searchRequest.status.statusId}" effect="fade">
+                                    <f:selectItem itemLabel="--ALL--" itemValue=""/>
+                                    <f:selectItems value="#{agentController.statusList}" var="status"
+                                                   itemLabel="#{status.statusDescription} (#{status.statusId})"
+                                                   itemValue="#{status.statusId}"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="Customer Type: " styleClass="boldOnly"/>
+                            </p:column>
+                            <p:column>
+                                <p:selectOneMenu value="#{agentController.searchRequest.customerType}" effect="fade">
+                                    <f:selectItem itemLabel="--ALL--" itemValue=""/>
+                                    <f:selectItem itemLabel="Residential" itemValue="R"/>
+                                    <f:selectItem itemLabel="Commercial" itemValue="B"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="Enrollment Type: " styleClass="boldOnly"/>
+                            </p:column>
+                            <p:column>
+                                <p:selectOneMenu value="#{agentController.searchRequest.enrollmentType}" effect="fade">
+                                    <f:selectItem itemLabel="--ALL--" itemValue=""/>
+                                    <f:selectItem itemLabel="Matrix" itemValue="M"/>
+                                    <f:selectItem itemLabel="Customized" itemValue="C"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                    <p:outputPanel layout="block" style="margin-top:5px;">
+                        <p:commandButton id="searchButton" value="Search" icon="ui-icon-search"
+                                         action="#{agentController.searchEnrollments}" update="searchResults"/>
+                        <p:commandButton id="resetButton" value="Reset" icon="ui-icon-refresh"
+                                         action="#{agentController.resetAction}" update="searchGrid searchResults"/>
+                    </p:outputPanel>
+
+                    <p:outputPanel layout="block" id="searchResults" style="margin-top:10px;">
+                        <p:dataTable value="#{agentController.searchResults}" var="enrollment">
+                            <f:facet name="header">
+                                <h:outputText value="Search Results: Total #{fn:length(agentController.searchResults)} customer(s) found"/>
+                            </f:facet>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Customer Name"/>
+                                </f:facet>
+                                <h:outputText value="#{enrollment.businessAccount.companyName}" rendered="#{not empty enrollment.businessAccount}"/>
+                                <p:outputPanel rendered="#{not empty enrollment.residentialAccount}">
+                                    <h:outputText value="#{enrollment.residentialAccount.firstName}"/>
+                                    <h:outputText value=", #{enrollment.residentialAccount.lastName}"
+                                                  rendered="#{not empty enrollment.residentialAccount.lastName}"/>
+                                </p:outputPanel>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Address"/>
+                                </f:facet>
+                                <h:outputText value="#{enrollment.businessAccount.billingContact.fullAddress}" rendered="#{not empty enrollment.businessAccount}"/>
+                                <h:outputText value="#{enrollment.residentialAccount.billingContact.fullAddress}" rendered="#{not empty enrollment.residentialAccount}"/>
+                            </p:column>
+                            <p:column sortBy="#{enrollment.enrollmentType}">
+                                <f:facet name="header">
+                                    <h:outputText value="Pricing"/>
+                                    <br/>
+                                    <h:outputText value="Type"/>
+                                </f:facet>
+                                <h:outputText value="Matrix" rendered="#{enrollment.enrollmentType eq 'M'}"/>
+                                <h:outputText value="Customized" rendered="#{enrollment.enrollmentType eq 'C'}"/>
+                            </p:column>
+                            <p:column sortBy="#{enrollment.customerType}">
+                                <f:facet name="header">
+                                    <h:outputText value="Customer"/>
+                                    <br/>
+                                    <h:outputText value="Type"/>
+                                </f:facet>
+                                <h:outputText value="Resdiential" rendered="#{enrollment.customerType eq 'R'}"/>
+                                <h:outputText value="Commerical" rendered="#{enrollment.customerType eq 'B'}"/>
+                            </p:column>
+                            <p:column sortBy="#{enrollment.serviceStartDateRequested}">
+                                <f:facet name="header">
+                                    <h:outputText value="Start Date"/>
+                                    <br/>
+                                    <h:outputText value="Requested"/>
+                                </f:facet>
+                                <h:outputText value="#{enrollment.serviceStartDateRequested}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy" timeZone="CST"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column sortBy="#{enrollment.status.statusDescription}">
+                                <f:facet name="header">
+                                    <h:outputText value="Status"/>
+                                </f:facet>
+                                <h:outputText value="#{enrollment.status.statusDescription}" styleClass="boldOnly"
+                                              style="color:#{enrollment.status.colorCode};"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:outputPanel>
+
+                </p:fieldset>
+
+                <p:outputPanel layout="block" style="margin-top:10px;padding:10px;">
+                    <p:commandButton value="Add New Customer" styleClass="bigStyle" ajax="false" immediate="true"
+                                   action="/pages/searchProviders?faces-redirect=true"/>
+                </p:outputPanel>
+            </p:outputPanel>
+        </h:form>
+    </ui:define>
+</ui:composition>

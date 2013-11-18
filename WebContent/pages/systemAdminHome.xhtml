@@ -1,0 +1,534 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                template="../layout/template.xhtml">
+
+    <ui:define name="title">
+        <h:outputText value="System Admin Home"/>
+    </ui:define>
+    <ui:define name="javascript">
+        <script type="text/javascript">
+            jQuery(document).ready(function () {
+
+            });
+        </script>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="systemAdminForm" prependId="false">
+            <p:panel rendered="#{empty systemAdminController.adminContact}">
+                <h:outputText value="Please log in first."/>
+                <br/><br/>
+                <p:commandLink value="Click here" styleClass="boldOnly" ajax="false" process="@this"
+                               action="/pages/systemLogin?faces-redirect=true"/> to log in
+            </p:panel>
+            <p:outputPanel rendered="#{not empty systemAdminController.adminContact}">
+                <p:fieldset legend="Welcome System Admin">
+                    <p:panelGrid id="systemAdminGrid" style="margin-top:5px;width:100%;">
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="Name: " styleClass="boldOnly"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{systemAdminController.adminContact.contactName}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="Address: " styleClass="boldOnly"/>
+                            </p:column>
+                            <p:column colspan="3">
+                                <h:outputText
+                                        value="#{systemAdminController.adminContact.fullAddress}"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:fieldset>
+                <p:fieldset legend="Search Customers" style="margin-top:10px;">
+                    <p:panelGrid id="searchGrid" style="margin-top:5px;width:60%;">
+                        <f:facet name="header">
+                            <p:row>
+                                <p:column colspan="4">
+                                    <h:outputText value="Enter Search Criteria" styleClass="boldOnly"/>
+                                </p:column>
+                            </p:row>
+                        </f:facet>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="Company Name: " styleClass="boldOnly"/>
+                            </p:column>
+                            <p:column>
+                                <h:inputText value="#{systemAdminController.searchRequest.businessAccount.companyName}" size="30"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="Enrollment Status: " styleClass="boldOnly"/>
+                            </p:column>
+                            <p:column>
+                                <p:selectOneMenu value="#{systemAdminController.searchRequest.status.statusId}" effect="fade">
+                                    <f:selectItem itemLabel="--ALL--" itemValue=""/>
+                                    <f:selectItems value="#{systemAdminController.statusList}" var="status"
+                                                   itemLabel="#{status.statusDescription} (#{status.statusId})"
+                                                   itemValue="#{status.statusId}"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="Customer Type: " styleClass="boldOnly"/>
+                            </p:column>
+                            <p:column>
+                                <p:selectOneMenu value="#{systemAdminController.searchRequest.customerType}" effect="fade">
+                                    <f:selectItem itemLabel="--ALL--" itemValue=""/>
+                                    <f:selectItem itemLabel="Residential" itemValue="R"/>
+                                    <f:selectItem itemLabel="Commercial" itemValue="B"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="Enrollment Type: " styleClass="boldOnly"/>
+                            </p:column>
+                            <p:column>
+                                <p:selectOneMenu value="#{systemAdminController.searchRequest.enrollmentType}" effect="fade">
+                                    <f:selectItem itemLabel="--ALL--" itemValue=""/>
+                                    <f:selectItem itemLabel="Matrix" itemValue="M"/>
+                                    <f:selectItem itemLabel="Customized" itemValue="C"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                    <p:outputPanel layout="block" style="margin-top:5px;">
+                        <p:commandButton id="searchButton" value="Search" icon="ui-icon-search"
+                                action="#{systemAdminController.searchEnrollments}" update="searchResults"/>
+                        <p:commandButton id="resetButton" value="Reset" icon="ui-icon-refresh"
+                                action="#{systemAdminController.resetAction}" update="searchGrid searchResults"/>
+                    </p:outputPanel>
+
+                    <p:outputPanel layout="block" id="searchResults" style="margin-top:10px;">
+                        <p:dataTable value="#{systemAdminController.searchResults}" var="enrollment">
+                            <f:facet name="header">
+                                <h:outputText value="Search Results: Total #{fn:length(systemAdminController.searchResults)} customer(s) found"/>
+                            </f:facet>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Customer Name"/>
+                                </f:facet>
+                                <h:outputText value="#{enrollment.businessAccount.companyName}" rendered="#{not empty enrollment.businessAccount}"/>
+                                <p:outputPanel rendered="#{not empty enrollment.residentialAccount}">
+                                    <h:outputText value="#{enrollment.residentialAccount.firstName}"/>
+                                    <h:outputText value=", #{enrollment.residentialAccount.lastName}"
+                                                  rendered="#{not empty enrollment.residentialAccount.lastName}"/>
+                                </p:outputPanel>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="City"/>
+                                </f:facet>
+                                <h:outputText value="#{enrollment.businessAccount.billingContact.cityName}" rendered="#{not empty enrollment.businessAccount}"/>
+                                <h:outputText value="#{enrollment.residentialAccount.billingContact.cityName}" rendered="#{not empty enrollment.residentialAccount}"/>
+                            </p:column>
+                            <p:column sortBy="#{enrollment.enrollmentType}">
+                                <f:facet name="header">
+                                    <h:outputText value="Pricing"/>
+                                    <br/>
+                                    <h:outputText value="Type"/>
+                                </f:facet>
+                                <h:outputText value="Matrix" rendered="#{enrollment.enrollmentType eq 'M'}"/>
+                                <h:outputText value="Customized" rendered="#{enrollment.enrollmentType eq 'C'}"/>
+                            </p:column>
+                            <p:column sortBy="#{enrollment.customerType}">
+                                <f:facet name="header">
+                                    <h:outputText value="Customer"/>
+                                    <br/>
+                                    <h:outputText value="Type"/>
+                                </f:facet>
+                                <h:outputText value="Resdiential" rendered="#{enrollment.customerType eq 'R'}"/>
+                                <h:outputText value="Commerical" rendered="#{enrollment.customerType eq 'B'}"/>
+                            </p:column>
+                            <p:column sortBy="#{enrollment.serviceStartDateRequested}">
+                                <f:facet name="header">
+                                    <h:outputText value="Start Date"/>
+                                    <br/>
+                                    <h:outputText value="Requested"/>
+                                </f:facet>
+                                <h:outputText value="#{enrollment.serviceStartDateRequested}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy" timeZone="CST"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column sortBy="#{enrollment.status.statusDescription}">
+                                <f:facet name="header">
+                                    <h:outputText value="Status"/>
+                                </f:facet>
+                                <h:outputText value="#{enrollment.status.statusDescription}" styleClass="boldOnly"
+                                        style="color:#{enrollment.status.colorCode};"/>
+                            </p:column>
+                            <p:column style="text-align:center;">
+                                <f:facet name="header">
+                                    <h:outputText value="TDSP Response"/>
+                                </f:facet>
+                                <p:commandButton id="tdspButton"
+                                                 action="#{systemAdminController.openUploadDialog(enrollment)}"
+                                                 value="Upload Load File"
+                                                 icon="ui-icon-circle-arrow-n"
+                                                 oncomplete="uploadDialog.show();"
+                                                 rendered="#{enrollment.customized}"/>
+                                <p:outputPanel rendered="#{not empty enrollment.loadProfileList}">
+                                    <br/>
+                                    <p:commandLink value="View Files" styleClass="boldOnly"
+                                                   action="#{systemAdminController.openViewFileDialog(enrollment)}"
+                                            oncomplete="viewFileDialog.show();"/>
+                                </p:outputPanel>
+                            </p:column>
+                            <p:column style="text-align:center;">
+                                <f:facet name="header">
+                                    <h:outputText value="REP Response"/>
+                                </f:facet>
+                                <p:commandButton id="repButton"
+                                                 action="#{systemAdminController.openCustomizedResponseDialog(enrollment)}"
+                                                 value="Customized Resp"
+                                                 icon="ui-icon-disk"
+                                                 oncomplete="custRespDialog.show();"
+                                                 rendered="#{enrollment.customized}"/>
+                                <p:outputPanel rendered="#{not empty enrollment.customizedQuoteList}">
+                                    <br/>
+                                    <h:outputText value="#{fn:length(enrollment.customizedQuoteList)} customization(s) added." styleClass="boldOnly" style="color:blue;"/>
+                                </p:outputPanel>
+                            </p:column>
+                        </p:dataTable>
+                    </p:outputPanel>
+                </p:fieldset>
+            </p:outputPanel>
+        </h:form>
+        <p:dialog header="Upload File" widgetVar="uploadDialog" modal="true" width="700" height="300"
+                  showEffect="explode" hideEffect="explode" resizable="true">
+            <h:form id="uploadForm" prependId="false">
+                <p:panelGrid style="margin-bottom:10px;">
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="File Type: " styleClass="boldOnly"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="fileType" value="#{systemAdminController.customerLoadProfile.fileType}" effect="fade">
+                                <f:selectItem itemLabel="--ALL--" itemValue=""/>
+                                <f:selectItem itemLabel="Flat File" itemValue="Flat File"/>
+                                <f:selectItem itemLabel="Spread Sheet" itemValue="Spread Sheet"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="File Received Date: " styleClass="boldOnly"/>
+                        </p:column>
+                        <p:column>
+                            <p:calendar id="fileDate" value="#{systemAdminController.customerLoadProfile.fileReceivedDate}"
+                                        size="15" pattern="MM/dd/yyyy" mode="popup" showOn="both" navigator="true"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+
+                <p:fileUpload id="fileUpload" fileUploadListener="#{systemAdminController.handleFileUpload}"
+                              mode="advanced"
+                              multiple="false"
+                              auto="true"
+                              allowTypes="/(\.|\/)(xls?x|txt)$/"/>
+
+                <p:outputPanel layout="block" style="margin-top:10px;">
+                    <p:commandButton value="Upload" action="#{systemAdminController.uploadFile}"
+                                     update="messages, :systemAdminForm:searchResults"
+                                     onsuccess="uploadDialog.hide();"/>
+                </p:outputPanel>
+                <p:growl id="messages" showDetail="false"/>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog id="respDialog" header="Customized Response" widgetVar="custRespDialog" modal="true" width="1100" height="500"
+                  resizable="true" dynamic="true">
+            <h:form id="custRespForm" prependId="false">
+                <p:tabView id="tabView" activeIndex="#{systemAdminController.selectedTabIndex}">
+                    <p:tab id="tab1" title="Enter New Product">
+                        <p:panelGrid style="width:100%;">
+                            <p:row>
+                                <p:column>
+                                    <h:outputText value="Product Name: " styleClass="boldOnly"/>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="#{systemAdminController.custQuote.product.productName}" size="45"/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="Pricing Type: " styleClass="boldOnly"/>
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu value="#{systemAdminController.custQuote.product.pricingType}">
+                                        <f:selectItem itemLabel="-Select-" itemValue=""/>
+                                        <f:selectItem itemLabel="Fixed" itemValue="Fixed"/>
+                                        <f:selectItem itemLabel="Variable" itemValue="Variable"/>
+                                    </p:selectOneMenu>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputText value="TDSP/EDC: " styleClass="boldOnly"/>
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu value="#{systemAdminController.custQuote.product.edcTdsp.edcId}">
+                                        <f:selectItem itemLabel="-Select-" itemValue=""/>
+                                        <f:selectItems value="#{systemAdminController.edcTdspList}"
+                                                       var="edc" itemLabel="#{edc.edcName} (#{edc.serviceArea})" itemValue="#{edc.edcId}"/>
+                                    </p:selectOneMenu>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="REP: " styleClass="boldOnly"/>
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu value="#{systemAdminController.custQuote.product.rep.repId}">
+                                        <f:selectItem itemLabel="-Select-" itemValue=""/>
+                                        <f:selectItems value="#{systemAdminController.repList}"
+                                                       var="rep" itemLabel="#{rep.repName}" itemValue="#{rep.repId}"/>
+                                    </p:selectOneMenu>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputText value="Rate: " styleClass="boldOnly"/>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="#{systemAdminController.custQuote.product.rate}" size="20"/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="Contract Term: " styleClass="boldOnly"/>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="#{systemAdminController.custQuote.product.contractTerm}" size="20"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputText value="Early Cancel Fees: " styleClass="boldOnly"/>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="#{systemAdminController.custQuote.product.earlyCancelFees}" size="20"/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="Energy Type: " styleClass="boldOnly"/>
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu value="#{systemAdminController.custQuote.product.energyType}">
+                                        <f:selectItem itemLabel="-Select-" itemValue=""/>
+                                        <f:selectItem itemLabel="Wind" itemValue="Wind"/>
+                                        <f:selectItem itemLabel="Natural Gas" itemValue="Natural Gas"/>
+                                        <f:selectItem itemLabel="Traditional with 20% Wind" itemValue="Traditional with 20% Wind"/>
+                                        <f:selectItem itemLabel="Traditional with 50% Wind" itemValue="Traditional with 50% Wind"/>
+                                    </p:selectOneMenu>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputText value="Valid From: " styleClass="boldOnly"/>
+                                </p:column>
+                                <p:column>
+                                    <p:calendar value="#{systemAdminController.custQuote.product.validFrom}"
+                                                size="15" pattern="MM/dd/yyyy" mode="popup" showOn="both" navigator="true"/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="Valid To: " styleClass="boldOnly"/>
+                                </p:column>
+                                <p:column>
+                                    <p:calendar value="#{systemAdminController.custQuote.product.validTo}"
+                                                size="15" pattern="MM/dd/yyyy" mode="popup" showOn="both" navigator="true"/>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                        <p:panelGrid style="margin-top:10px;width:100%;">
+                            <p:row>
+                                <p:column>
+                                    <h:outputText value="Quote Requested Date: " styleClass="boldOnly"/>
+                                </p:column>
+                                <p:column>
+                                    <p:calendar value="#{systemAdminController.custQuote.quoteRequestedDate}"
+                                                size="15" pattern="MM/dd/yyyy" mode="popup" showOn="both" navigator="true"/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="Quote Response Date: " styleClass="boldOnly"/>
+                                </p:column>
+                                <p:column>
+                                    <p:calendar value="#{systemAdminController.custQuote.quoteResponseDate}"
+                                                size="15" pattern="MM/dd/yyyy" mode="popup" showOn="both" navigator="true"/>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+
+                        <p:outputPanel layout="block" style="margin-top:10px;">
+                            <p:commandButton value="Save" action="#{systemAdminController.saveProductAndAddToCustomerProfile}"
+                                             update="custRespmessages1, :systemAdminForm:searchResults"
+                                             onsuccess="custRespDialog.hide();"/>
+                        </p:outputPanel>
+
+                        <p:growl id="custRespmessages1" showDetail="false"/>
+                    </p:tab>
+
+                    <p:tab id="tab2" title="Select Existing Product">
+                        <p:dataTable value="#{systemAdminController.repProductsList}" var="product" style="margin-top:5px;"
+                                     border="1" cellpadding="2" cellspacing="0"
+                                     sortBy="#{product.savingsPercentage}" sortOrder="DESCENDING">
+                            <f:facet name="header">
+                                <h:outputText value="Total #{fn:length(systemAdminController.repProductsList)} plans found"/>
+                            </f:facet>
+                            <p:column>
+                                <p:selectBooleanCheckbox value="#{product.selected}" disabled="#{product.disabled}"/>
+                            </p:column>
+                            <p:column sortBy="#{product.productName}">
+                                <f:facet name="header">
+                                    <h:outputText value="Plan Name"/>
+                                </f:facet>
+                                <h:outputText value="#{product.productName}" styleClass="boldOnly"/>
+                            </p:column>
+                            <p:column sortBy="#{product.edcTdsp.edcName}">
+                                <f:facet name="header">
+                                    <h:outputText value="TDSP/EDC"/>
+                                </f:facet>
+                                <h:outputText value="#{product.edcTdsp.edcName}"/>
+                            </p:column>
+                            <p:column sortBy="#{product.rep.repName}">
+                                <f:facet name="header">
+                                    <h:outputText value="Provider"/>
+                                </f:facet>
+                                <h:outputText value="#{product.rep.repName}"/>
+                            </p:column>
+                            <p:column sortBy="#{product.energyType}">
+                                <f:facet name="header">
+                                    <h:outputText value="Energy"/>
+                                    <br/>
+                                    <h:outputText value="Type"/>
+                                </f:facet>
+                                <h:outputText value="#{product.energyType}"/>
+                            </p:column>
+                            <p:column sortBy="#{product.contractTerm}">
+                                <f:facet name="header">
+                                    <h:outputText value="Contract"/>
+                                    <br/>
+                                    <h:outputText value="Term"/>
+                                </f:facet>
+                                <h:outputText value="#{product.contractTerm}"/>
+                            </p:column>
+                            <p:column sortBy="#{product.earlyCancelFees}">
+                                <f:facet name="header">
+                                    <h:outputText value="Early Cancel"/>
+                                    <br/>
+                                    <h:outputText value="Fees ($)"/>
+                                </f:facet>
+                                <h:outputText value="#{product.earlyCancelFees}"/>
+                            </p:column>
+                            <p:column sortBy="#{product.validTo}">
+                                <f:facet name="header">
+                                    <h:outputText value="Valid Upto"/>
+                                </f:facet>
+                                <h:outputText value="#{product.validTo}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy" timeZone="CST"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column sortBy="#{product.pricingType}">
+                                <f:facet name="header">
+                                    <h:outputText value="Pricing"/>
+                                    <br/>
+                                    <h:outputText value="Type"/>
+                                </f:facet>
+                                <h:outputText value="#{product.pricingType}"/>
+                            </p:column>
+                            <p:column sortBy="#{product.rate}">
+                                <f:facet name="header">
+                                    <h:outputText value="Rate"/>
+                                    <br/>
+                                    <h:outputText value="(c/KWH)"/>
+                                </f:facet>
+                                <h:outputText value="#{product.rate}">
+                                    <f:convertNumber maxFractionDigits="2"/>
+                                </h:outputText>
+                            </p:column>
+                        </p:dataTable>
+                        <p:panelGrid style="margin-top:10px;width:100%;">
+                            <p:row>
+                                <p:column>
+                                    <h:outputText value="Quote Requested Date: " styleClass="boldOnly"/>
+                                </p:column>
+                                <p:column>
+                                    <p:calendar value="#{systemAdminController.custQuote.quoteRequestedDate}"
+                                                size="15" pattern="MM/dd/yyyy" mode="popup" showOn="both" navigator="true"/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="Quote Response Date: " styleClass="boldOnly"/>
+                                </p:column>
+                                <p:column>
+                                    <p:calendar value="#{systemAdminController.custQuote.quoteResponseDate}"
+                                                size="15" pattern="MM/dd/yyyy" mode="popup" showOn="both" navigator="true"/>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+
+                        <p:outputPanel layout="block" style="margin-top:10px;">
+                            <p:commandButton value="Save" action="#{systemAdminController.saveExistingProductAndAddToCustomerProfile}"
+                                             update="custRespmessages2, :systemAdminForm:searchResults"
+                                             onsuccess="custRespDialog.hide();"/>
+                        </p:outputPanel>
+
+                        <p:growl id="custRespmessages2" showDetail="false"/>
+                    </p:tab>
+                </p:tabView>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Load Profiles" widgetVar="viewFileDialog" modal="true" width="800" height="500"
+                  resizable="true" dynamic="true">
+            <h:form id="downloadForm" prependId="false">
+                <p:dataTable value="#{systemAdminController.selectedEnrollment.loadProfileList}" var="loadProfile" style="margin-top:5px;"
+                             border="1" cellpadding="2" cellspacing="0">
+                    <f:facet name="header">
+                        <h:outputText value="Total #{fn:length(systemAdminController.selectedEnrollment.loadProfileList)} profiles found"/>
+                    </f:facet>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="File Name"/>
+                        </f:facet>
+                        <h:outputText value="#{loadProfile.fileName}" styleClass="boldOnly"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="File Type"/>
+                        </f:facet>
+                        <h:outputText value="#{loadProfile.fileType}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="File Size (bytes)"/>
+                        </f:facet>
+                        <h:outputText value="#{loadProfile.fileSize}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="File Received Date"/>
+                        </f:facet>
+                        <h:outputText value="#{loadProfile.fileReceivedDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" timeZone="CST"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Created Date"/>
+                        </f:facet>
+                        <h:outputText value="#{loadProfile.createdOn}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" timeZone="CST"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="View"/>
+                        </f:facet>
+                        <p:commandButton value="View File" styleClass="boldOnly" ajax="false"
+                                       action="#{fileDownloadController.fileDownloadAction(loadProfile)}">
+                            <p:fileDownload value="#{fileDownloadController.file}" />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

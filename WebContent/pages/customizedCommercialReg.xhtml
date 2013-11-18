@@ -1,0 +1,408 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+<h:panelGrid width="100%" border="0" columns="2" cellpadding="4" cellspacing="0"
+             columnClasses="col3, col4">
+
+<p:outputPanel layout="block">
+    <p:messages id="custCommRegMessages"/>
+    <p:fieldset legend="Login Information">
+        <p:panelGrid border="0" width="100%" cellpadding="2"
+                     cellspacing="0" style="margin-top:10px;width:100%;">
+            <p:row>
+                <p:column>
+                    <h:outputText value="Email: " styleClass="boldOnly"/>
+                </p:column>
+                <p:column colspan="3">
+                    <p:inputText value="#{providerController.enrollment.businessAccount.billingContact.email}"
+                                 size="45"
+                                 required="true" label="Email"/>
+                    <h:outputText value=" (This will serve as your user name during login)"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <h:outputText value="Password:" styleClass="boldOnly"/>
+                </p:column>
+                <p:column>
+                    <p:password value="#{providerController.enrollment.businessAccount.billingContact.password}"
+                                required="true" label="Password"
+                                size="25" feedback="true"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="Confirm Password:" styleClass="boldOnly"/>
+                </p:column>
+                <p:column>
+                    <p:password value="#{providerController.enrollment.businessAccount.billingContact.password}"
+                                label="Confirm Password" size="25" feedback="true"/>
+                </p:column>
+            </p:row>
+        </p:panelGrid>
+    </p:fieldset>
+
+    <p:fieldset legend="General Information" style="margin-top:5px;">
+        <p:panelGrid style="margin-top:10px;width:100%;">
+            <p:row>
+                <p:column>
+                    <h:outputText value="Company Name:" styleClass="boldOnly"/>
+                </p:column>
+                <p:column>
+                    <p:inputText value="#{providerController.enrollment.businessAccount.companyName}" size="30"
+                                 required="true" label="Company Name"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="Business Type:" styleClass="boldOnly"/>
+                </p:column>
+                <p:column>
+                    <p:selectOneMenu value="#{providerController.enrollment.businessAccount.businessType.businessTypeId}"
+                                     required="true" label="Business Type">
+                        <f:selectItem itemLabel="--Select--" itemValue=""/>
+                        <f:selectItems value="#{providerController.businessTypeList}" var="busType"
+                                       itemLabel="#{busType.businessTypeName}" itemValue="#{busType.businessTypeId}"/>
+                    </p:selectOneMenu>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <h:outputText value="Phone:" styleClass="boldOnly"/>
+                </p:column>
+                <p:column>
+                    <p:inputMask value="#{providerController.enrollment.businessAccount.billingContact.phoneNo}"
+                                 size="30" mask="(999) 999-9999"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="Mobile:" styleClass="boldOnly"/>
+                </p:column>
+                <p:column>
+                    <p:inputMask value="#{providerController.enrollment.businessAccount.billingContact.cellPhoneNo}"
+                                 size="30" mask="(999) 999-9999"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <h:outputText value="Fax:" styleClass="boldOnly"/>
+                </p:column>
+                <p:column>
+                    <p:inputMask value="#{providerController.enrollment.businessAccount.billingContact.faxNo}"
+                                 size="30" mask="(999) 999-9999"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value=""/>
+                </p:column>
+                <p:column>
+                    <h:outputText value=""/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <h:outputText value="Federal Tax ID:" styleClass="boldOnly"/>
+                </p:column>
+                <p:column>
+                    <p:inputMask value="#{providerController.enrollment.businessAccount.federalTaxId}" size="12" maxlength="9"
+                                 mask="99-999999"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="Service Start Date:" styleClass="boldOnly"/>
+                </p:column>
+                <p:column>
+                    <p:calendar value="#{providerController.enrollment.serviceStartDateRequested}"
+                                size="15" pattern="MM/dd/yyyy" mode="popup" showOn="both"
+                                required="true" label="Service Start Date" mindate="#{providerController.currentDate}"/>
+                </p:column>
+            </p:row>
+        </p:panelGrid>
+    </p:fieldset>
+
+    <p:panelGrid style="margin-top:5px;width:100%;">
+        <f:facet name="header">
+            <p:row>
+                <p:column colspan="4" style="text-align:left;">
+                    <h:outputText value="Billing Address"/>
+                </p:column>
+            </p:row>
+        </f:facet>
+        <ui:include src="addressInc.xhtml">
+            <ui:param name="contact" value="#{providerController.enrollment.businessAccount.billingContact}"/>
+        </ui:include>
+    </p:panelGrid>
+
+    <p:panelGrid id="custCommServAddrGrid" style="margin-top:5px;width:100%;">
+        <f:facet name="header">
+            <p:row>
+                <p:column colspan="4" style="text-align:left;">
+                    <h:outputText value="Service Address(es)"/>
+                </p:column>
+            </p:row>
+        </f:facet>
+        <p:row>
+            <p:column>
+                <p:commandLink value="Add Service Address" styleClass="boldOnly" immediate="true"
+                               action="#{providerController.openServiceAddressDialog}" oncomplete="dlg1.show();"/>
+
+                <p:dataTable value="#{providerController.enrollment.businessAccount.serviceAddressList}"
+                             var="serviceAddr" style="width:100%;margin-top:5px;">
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Contact Name"/>
+                        </f:facet>
+                        <h:outputText value="#{serviceAddr.serviceContact.contactName}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Address Line 1"/>
+                        </f:facet>
+                        <h:outputText value="#{serviceAddr.serviceContact.addressLine1}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Address Line 2"/>
+                        </f:facet>
+                        <h:outputText value="#{serviceAddr.serviceContact.addressLine2}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="City"/>
+                        </f:facet>
+                        <h:outputText value="#{serviceAddr.serviceContact.cityName}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="State"/>
+                        </f:facet>
+                        <h:outputText value="#{serviceAddr.serviceContact.stateName}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Zip Code"/>
+                        </f:facet>
+                        <h:outputText value="#{serviceAddr.serviceContact.zipCode}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Country"/>
+                        </f:facet>
+                        <h:outputText value="#{serviceAddr.serviceContact.country}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Utility Account No"/>
+                        </f:facet>
+                        <h:outputText value="#{serviceAddr.utilitAccountNo}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="ESI"/>
+                        </f:facet>
+                        <h:outputText value="#{serviceAddr.ESI}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Actions"/>
+                        </f:facet>
+                        <p:commandLink value="Remove" styleClass="boldOnly"
+                                         action="#{providerController.removeServiceAddressAction(serviceAddr)}"
+                                         process="@this" update="@form"/>
+                    </p:column>
+                </p:dataTable>
+            </p:column>
+        </p:row>
+    </p:panelGrid>
+
+    <p:panelGrid id="loaInfoPanelGrid" style="margin-top:5px;width:100%;">
+        <f:facet name="header">
+            <p:row>
+                <p:column colspan="4" style="text-align:left;">
+                    <h:outputText value="Letter of Authorization"/>
+                </p:column>
+            </p:row>
+        </f:facet>
+        <p:row>
+            <p:column>
+                <h:outputText value="LOA Personal First Name:" styleClass="boldOnly"/>
+            </p:column>
+            <p:column>
+                <p:inputText value="#{providerController.enrollment.loaPersonalFirstName}" size="30"
+                             required="true" label="LOA Personal First Name"/>
+            </p:column>
+            <p:column>
+                <h:outputText value="LOA Personal Last Name:" styleClass="boldOnly"/>
+            </p:column>
+            <p:column>
+                <p:inputText value="#{providerController.enrollment.loaPersonalLastName}" size="20"/>
+            </p:column>
+        </p:row>
+        <p:row>
+            <p:column>
+                <h:outputText value="LOA Personal Title:" styleClass="boldOnly"/>
+            </p:column>
+            <p:column colspan="3">
+                <p:inputText value="#{providerController.enrollment.loaPersonalTitle}" size="30"/>
+            </p:column>
+        </p:row>
+    </p:panelGrid>
+    <p:panelGrid style="margin-top:5px;width:100%;">
+        <f:facet name="header">
+            <p:row>
+                <p:column colspan="4" style="text-align:left;">
+                    <h:outputText value="Letter of Authorization Contact Address"/>
+                </p:column>
+            </p:row>
+        </f:facet>
+        <ui:include src="addressInc.xhtml">
+            <ui:param name="contact" value="#{providerController.enrollment.loaPersonalContact}"/>
+        </ui:include>
+        <p:row>
+            <p:column>
+                <h:outputText value="Phone:" styleClass="boldOnly"/>
+            </p:column>
+            <p:column>
+                <p:inputMask value="#{providerController.enrollment.loaPersonalContact.phoneNo}"
+                             size="30" mask="(999) 999-9999"/>
+            </p:column>
+            <p:column>
+                <h:outputText value="Mobile:" styleClass="boldOnly"/>
+            </p:column>
+            <p:column>
+                <p:inputMask value="#{providerController.enrollment.loaPersonalContact.cellPhoneNo}"
+                             size="30" mask="(999) 999-9999"/>
+            </p:column>
+        </p:row>
+    </p:panelGrid>
+
+    <p:panelGrid id="prefPanelGrid" style="margin-top:5px;width:100%;" columnClasses="alignTop">
+        <f:facet name="header">
+            <p:row>
+                <p:column colspan="4" style="text-align:left;">
+                    <h:outputText value="Preferences"/>
+                </p:column>
+            </p:row>
+        </f:facet>
+        <p:row>
+            <p:column>
+                <h:outputText value="Current REP:" styleClass="boldOnly"/>
+            </p:column>
+            <p:column>
+                <p:selectOneMenu value="#{providerController.enrollment.preferences.rep.repId}">
+                    <f:selectItem itemLabel="--Select--" itemValue=""/>
+                    <f:selectItems value="#{providerController.repList}" var="rep"
+                                   itemLabel="#{rep.repName}" itemValue="#{rep.repId}"/>
+                </p:selectOneMenu>
+            </p:column>
+            <p:column>
+                <h:outputText value="Energy Type:" styleClass="boldOnly"/>
+            </p:column>
+            <p:column>
+                <p:selectOneMenu value="#{providerController.enrollment.enrollmentType}">
+                    <f:selectItem itemLabel="--Select--" itemValue=""/>
+                </p:selectOneMenu>
+            </p:column>
+        </p:row>
+        <p:row>
+            <p:column>
+                <h:outputText value="Product Type:" styleClass="boldOnly"/>
+            </p:column>
+            <p:column>
+                <p:selectOneMenu value="#{providerController.enrollment.preferences.productType.productTypeId}">
+                    <f:selectItem itemLabel="--Select--" itemValue=""/>
+                    <f:selectItems value="#{providerController.productTypeList}" var="productType"
+                                   itemLabel="#{productType.description}" itemValue="#{productType.productTypeId}"/>
+                </p:selectOneMenu>
+            </p:column>
+            <p:column>
+                <h:outputText value="Product Term:" styleClass="boldOnly"/>
+            </p:column>
+            <p:column>
+                <p:selectOneMenu value="#{providerController.enrollment.preferences.productTerm}">
+                    <f:selectItem itemLabel="--Select--" itemValue=""/>
+                    <f:selectItem itemLabel="Monthly" itemValue="Monthly"/>
+                    <f:selectItem itemLabel="6 months" itemValue="6 months"/>
+                    <f:selectItem itemLabel="12 months" itemValue="12 months"/>
+                    <f:selectItem itemLabel="24 months" itemValue="24 months"/>
+                </p:selectOneMenu>
+            </p:column>
+        </p:row>
+        <p:row>
+            <p:column>
+                <h:outputText value="Notification Interval:" styleClass="boldOnly"/>
+            </p:column>
+            <p:column>
+                <p:selectOneMenu value="#{providerController.enrollment.preferences.notificationInterval}">
+                    <f:selectItem itemLabel="--Select--" itemValue=""/>
+                    <f:selectItem itemLabel="Immediately" itemValue="Immediately"/>
+                </p:selectOneMenu>
+            </p:column>
+            <p:column>
+                <h:outputText value="What is important to you?:" styleClass="boldOnly"/>
+            </p:column>
+            <p:column>
+                <p:selectBooleanCheckbox value="#{providerController.enrollment.preferences.savingsBool}"/>
+                <h:outputText value=" Savings" styleClass="boldOnly" style="vertical-align: middle;"/>
+                <br/>
+                <p:selectBooleanCheckbox value="#{providerController.enrollment.preferences.rewarsPointsBool}"/>
+                <h:outputText value=" Reward Points" styleClass="boldOnly" style="vertical-align: middle;"/>
+                <br/>
+                <p:selectBooleanCheckbox value="#{providerController.enrollment.preferences.customerServiceBool}"/>
+                <h:outputText value=" Customer Service" styleClass="boldOnly" style="vertical-align: middle;"/>
+                <br/>
+                <p:selectBooleanCheckbox value="#{providerController.enrollment.preferences.smartEnergySolutionsBool}"/>
+                <h:outputText value=" Smart Energy Solutions" styleClass="boldOnly" style="vertical-align: middle;"/>
+            </p:column>
+        </p:row>
+    </p:panelGrid>
+
+    <p:panel header="Terms and Conditions" style="margin-top:5px;padding:5px;">
+        <p:selectBooleanCheckbox value="#{providerController.enrollment.termsAndConditionsBool}"
+                                 style="vertical-align:middle;"/>
+        <h:outputText value="I have read and agreed with the above terms and conditions." styleClass="boldOnly"
+                      style="margin-left:3px;vertical-align: middle;color:blue;"/>
+    </p:panel>
+
+    <p:outputPanel layout="block" style="margin-top:10px;text-align:center;">
+        <p:commandButton value="Register" action="#{providerController.createAccountAction}"
+                         icon="ui-icon-disk" update="@form, custCommRegMessages"/>
+    </p:outputPanel>
+</p:outputPanel>
+
+</h:panelGrid>
+<p:dialog header="Service Address" widgetVar="dlg1" modal="true"
+          showEffect="explode" hideEffect="explode" resizable="true">
+    <p:panelGrid id="custCommServiceContactGrid" style="width:100%;">
+        <p:row>
+            <p:column colspan="1">
+                <h:outputText value="Contact Name: " styleClass="boldOnly"/>
+            </p:column>
+            <p:column colspan="3">
+                <p:inputText value="#{providerController.businessAccountServiceAddress.serviceContact.contactName}" size="45"/>
+            </p:column>
+        </p:row>
+        <ui:include src="addressInc.xhtml">
+            <ui:param name="contact" value="#{providerController.businessAccountServiceAddress.serviceContact}"/>
+        </ui:include>
+        <p:row>
+            <p:column>
+                <h:outputText value="Utility Account No:" styleClass="boldOnly"/>
+            </p:column>
+            <p:column>
+                <p:inputText value="#{providerController.businessAccountServiceAddress.utilitAccountNo}" style="25"/>
+            </p:column>
+            <p:column>
+                <h:outputText value="ESI:" styleClass="boldOnly"/>
+            </p:column>
+            <p:column>
+                <p:inputText value="#{providerController.businessAccountServiceAddress.ESI}" style="25"/>
+            </p:column>
+        </p:row>
+        <p:row>
+            <p:column colspan="4">
+                <p:commandButton value="Add Address" action="#{providerController.addServiceAddressAction}"
+                                 update="custCommServAddrGrid" process="custCommServiceContactGrid"
+                                 oncomplete="dlg1.hide();"/>
+            </p:column>
+        </p:row>
+    </p:panelGrid>
+</p:dialog>
+
+</ui:composition>

@@ -1,0 +1,55 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:row>
+        <p:column >
+            <h:outputText value="Address Line 1:" styleClass="boldOnly"/>
+        </p:column>
+        <p:column>
+            <p:inputText value="#{contact.addressLine1}"
+                         size="40"/>
+        </p:column>
+        <p:column >
+            <h:outputText value="Address Line 2:" styleClass="boldOnly"/>
+        </p:column>
+        <p:column>
+            <p:inputText value="#{contact.addressLine2}"
+                         size="40"/>
+        </p:column>
+    </p:row>
+    <p:row>
+        <p:column>
+            <h:outputText value="City:" styleClass="boldOnly"/>
+        </p:column>
+        <p:column>
+            <p:inputText value="#{contact.cityName}" size="35"/>
+        </p:column>
+        <p:column>
+            <h:outputText value="State:" styleClass="boldOnly"/>
+        </p:column>
+        <p:column>
+            <p:selectOneMenu value="#{contact.stateName}" size="35">
+                <ui:include src="statesInc.xhtml"/>
+            </p:selectOneMenu>
+        </p:column>
+    </p:row>
+    <p:row>
+        <p:column>
+            <h:outputText value="Zip Code:" styleClass="boldOnly"/>
+        </p:column>
+        <p:column>
+            <p:inputMask value="#{contact.zipCode}" size="15"
+                         mask="99999?-9999"/>
+        </p:column>
+        <p:column>
+            <h:outputText value="Country:" styleClass="boldOnly"/>
+        </p:column>
+        <p:column>
+            <p:inputText value="#{contact.country}" size="35"/>
+        </p:column>
+    </p:row>
+
+</ui:composition>

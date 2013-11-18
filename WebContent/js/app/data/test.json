@@ -1,0 +1,108 @@
+{
+    "enrollmentId":null,
+    "enrollmentType":"C",
+    "customerType":"B",
+    "smartMeter":null,
+    "termsAndConditions":"Y",
+    "loaPersonalFirstName":"Amit",
+    "loaPersonalLastName":"Tyagi",
+    "loaPersonalTitle":"Manager",
+    "currentRate":18,
+    "serviceStartDateRequested":"2013-07-31",
+    "serviceStartDateConfirmed":null,
+    "agentEmail":null,
+    "status":{
+        "statusId":1
+    },
+    "residentialAccount":null,
+    "businessAccount":{
+        "businessAccountId":null,
+        "companyName":"Amit Corp",
+        "federalTaxId":"111111111",
+        "billedMonth":5,
+        "billedUsage":null,
+        "billedPeakDemand":null,
+        "businessType":{
+            "businessTypeId":3
+        },
+        "billingContact":{
+            "contactId":null,
+            "contactName":null,
+            "contactType":"BI",
+            "addressLine1":"30 Koval Lane",
+            "addressLine2":"",
+            "cityName":"Conroe",
+            "stateName":"Texas",
+            "zipCode":"77389-4775",
+            "country":"USA",
+            "phoneNo":"(832) 111-1111",
+            "cellPhoneNo":"(832) 222-2222",
+            "faxNo":"(832) 333-3333",
+            "email":"amit5555@gmail.com",
+            "password":"atyagi",
+            "loginType":"U",
+            "lastLoginDate":null
+        },
+        "serviceAddresses":[
+            {
+                "busAcctServiceAddressId":null,
+                "utilitAccountNo":"123123123",
+                "serviceContact":{
+                    "contactId":null,
+                    "contactName":"Amit Tyagi",
+                    "contactType":"SR",
+                    "addressLine1":"3900 Vegas Street",
+                    "addressLine2":"",
+                    "cityName":"Las Vegas",
+                    "stateName":"Nevada",
+                    "zipCode":"89123-4774",
+                    "country":"USA",
+                    "phoneNo":null,
+                    "cellPhoneNo":null,
+                    "faxNo":null,
+                    "email":null,
+                    "password":null,
+                    "loginType":null,
+                    "lastLoginDate":null
+                },
+                "esi":"345345345"
+            }
+        ],
+        "serviceAddressList":[]
+    },
+    "product":null,
+    "preferences":{
+        "preferenceId":null,
+        "enerygyType":null,
+        "customerService":"Y",
+        "rewardPoints":"Y",
+        "savings":"Y",
+        "smartEnergySolutions":"Y",
+        "notificationInterval":"Immediately",
+        "productTerm":"12 months",
+        "productType":{
+            "productTypeId":2
+        },
+        "rep":{
+            "repId":1
+        }
+    },
+    "loaPersonalContact":{
+        "contactId":null,
+        "contactName":null,
+        "contactType":"LA",
+        "addressLine1":"30 Koval Lane",
+        "addressLine2":"",
+        "cityName":"Conroe",
+        "stateName":"Texas",
+        "zipCode":"77389-4775",
+        "country":"USA",
+        "phoneNo":"(823) 555-5555",
+        "cellPhoneNo":"(832) 666-6666",
+        "faxNo":null,
+        "email":null,
+        "password":null,
+        "loginType":null,
+        "lastLoginDate":null
+    }
+}

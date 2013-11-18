@@ -1,0 +1,46 @@
+<!-- header -->
+<div data-role="header" id="header">
+    <a href="#" data-icon="home" data-theme="b">Home</a>
+
+    <h1>
+        <a href="#">
+            <img src="img/logo_innowatts.png" width="145" height="65"/>
+        </a>
+    </h1>
+</div>
+<div id="line"><%=customerType%></div>
+<div data-role="content">
+    <div class="ui-bar ui-bar-c">
+        <fieldset class="ui-grid-solo">
+            <div class="ui-block-a">
+                <label for="zip">Enter Zip Code:
+                <span class="required">*
+                    <button id="geoLocationBtn" data-icon="gear" data-iconpos="notext" data-inline="true">
+                        Click to get the Zip Code
+                    </button>
+                </span>
+                </label>
+                <input id="zip" name="zip" type="number" maxlength="5" value="" placeHolder="Zip (E.g. 77450)"/>
+            </div>
+        </fieldset>
+        <fieldset class="ui-grid-solo">
+            <div class="ui-block-a">
+                <label for="rate">Current Rate:</label>
+                <input id="rate" name="rate" type="number" value=""/>
+            </div>
+        </fieldset>
+        <fieldset class="ui-grid-solo">
+            <div class="ui-block-a">
+                <a id="searchBtn" data-role="button" data-theme="b"
+                   data-icon="grid" data-iconpos="right">Find Products</a>
+            </div>
+        </fieldset>
+    </div>
+
+
+</div>
+<!-- footer -->
+<div data-role="footer" id="footer" data-position="fixed" data-theme="d">
+    <h4 style="font-size:11px;"><%=config.copyright%></h4>
+
+</div>

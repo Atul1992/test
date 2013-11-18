@@ -1,0 +1,66 @@
+<!-- header -->
+<div data-role="header" id="header">
+    <a href="#" data-icon="home" data-theme="b">Home</a>
+    <h1>
+        <a href="#">
+            <img src="img/logo_innowatts.png" width="145" height="65"/>
+        </a>
+    </h1>
+</div>
+<div id="line"><%=customerType%></div>
+<div data-role="content">
+    <div data-role="fieldcontain">
+        <label for="zip" class="bold">Enter Zip Code:
+            <span class="required">*
+                <button id="geoLocationBtn" data-icon="gear" data-iconpos="notext" data-inline="true">Click to get the Zip Code</button>
+            </span>
+        </label>
+        <input id="zip" name="zip" type="text" value="" placeHolder="Zip (E.g. 77450)"/>
+    </div>
+    <div data-role="fieldcontain">
+        <label for="businessType">Business Type:  <span class="required">*</span></label>
+        <select id="businessType" name="businessType">
+            <option value="">--Select--</option>
+            <% _.each(businessTypes, function(businessType) { %>
+                <option value="<%= businessType.businessTypeId %>"><%= businessType.businessTypeName %></option>
+            <% }); %>
+        </select>
+    </div>
+    <div data-role="fieldcontain">
+        <label for="billedMonth">Billed Month:  <span class="required">*</span></label>
+        <select id="billedMonth" name="billedMonth">
+            <option value="">--Select--</option>
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="5">June</option>
+            <option value="6">July</option>
+            <option value="7">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+        </select>
+    </div>
+    <div data-role="fieldcontain">
+        <label for="currentRate" class="bold">Current Rate:</label>
+        <input id="currentRate" name="currentRate" type="text" value="" placeHolder="Current Rate (&cent;/KWh)"/>
+    </div>
+    <div data-role="fieldcontain">
+        <label for="billedUsage" class="bold">Billed Usage:</label>
+        <input id="billedUsage" name="billedUsage" type="text" value="" placeHolder="Billed Usage (KWh)"/>
+    </div>
+    <div data-role="fieldcontain">
+        <label for="billedPeakDemand" class="bold">Billed Peak Demand:</label>
+        <input id="billedPeakDemand" name="billedPeakDemand" type="text" value="" placeHolder="Billed Peak Demand (KW)"/>
+    </div>
+    <a id="nextBtn" data-role="button" data-theme="b"
+       data-icon="grid" data-iconpos="right">Next</a>
+</div>
+<!-- footer -->
+<div data-role="footer" id="footer" data-position="fixed" data-theme="d">
+    <h4 style="font-size:11px;"><%=config.copyright%></h4>
+
+</div>

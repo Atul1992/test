@@ -1,0 +1,113 @@
+{
+    "enrollmentId":17,
+    "enrollmentType":"M",
+    "smartMeter":null,
+    "termsAndConditions":"Y",
+    "currentRate":19,
+    "serviceStartDateRequested":"2013-07-31",
+    "serviceStartDateConfirmed":null,
+    "agentEmail":null,
+    "status":{
+        "statusId":1,
+        "statusDescription":"Pending"
+    },
+    "residentialAccount":null,
+    "businessAccount":{
+        "businessAccountId":14,
+        "companyName":"Test Corporation",
+        "federalTaxId":"11-111111",
+        "billedMonth":null,
+        "billedUsage":null,
+        "billedPeakDemand":null,
+        "businessType":{
+            "businessTypeId":2,
+            "businessTypeName":"Energy"
+        },
+        "billingContact":{
+            "contactId":58,
+            "contactName":null,
+            "contactType":"BI",
+            "addressLine1":"30 S Victoriana Cir",
+            "addressLine2":"",
+            "cityName":"The Woodlands",
+            "stateName":"TX",
+            "zipCode":"77384-4774",
+            "country":"USA",
+            "phoneNo":"(832) 111-1111",
+            "cellPhoneNo":"(832) 222-2222",
+            "faxNo":"(832) 333-3333",
+            "email":"at@gmail.com",
+            "password":"at",
+            "loginType":"U",
+            "lastLoginDate":null,
+            "fullAddress":"30 S Victoriana Cir, The Woodlands, TX, 77384-4774, USA"
+        },
+        "serviceAddresses":[
+            {
+                "busAcctServiceAddressId":14,
+                "utilitAccountNo":"",
+                "serviceContact":{
+                    "contactId":59,
+                    "contactName":"Amit Tyagi",
+                    "contactType":"SR",
+                    "addressLine1":"30 S Victoriana Cir",
+                    "addressLine2":"",
+                    "cityName":"The Woodlands",
+                    "stateName":"TX",
+                    "zipCode":"77389-4774",
+                    "country":"USA",
+                    "phoneNo":null,
+                    "cellPhoneNo":null,
+                    "faxNo":null,
+                    "email":null,
+                    "password":null,
+                    "loginType":null,
+                    "lastLoginDate":null,
+                    "fullAddress":"30 S Victoriana Cir, The Woodlands, TX, 77389-4774, USA"
+                },
+                "esi":""
+            }
+        ],
+        "serviceAddressList":[]
+    },
+    "product":{
+        "productId":10,
+        "productName":"Summer Saver 10",
+        "productCode":null,
+        "pricingType":"Variable",
+        "specialOffer":null,
+        "energyType":"Wind",
+        "energyFactsLabelURL":"http://www.piggywatts.com/energyfacts/10",
+        "commercialMatrix":"Y",
+        "commercialCustomized":"N",
+        "residentialMatrix":"Y",
+        "tosPath":null,
+        "yraacPath":null,
+        "contractTerm":12,
+        "windPercentage":95,
+        "rate":10.5,
+        "deposit":100,
+        "earlyCancelFees":50,
+        "monthlyCharges":0,
+        "annualMWH":1000,
+        "brokerFees":25,
+        "switchingFees":0,
+        "savingsPercentage":null,
+        "validFrom":"2001-09-14",
+        "validTo":"2014-09-14",
+        "rep":{
+            "repId":1,
+            "repName":"Reliant Energy"
+        },
+        "edcTdsp":{
+            "edcId":100,
+            "edcName":"Centerpoint Energy",
+            "serviceArea":"Reliant Service Area",
+            "servicePhone":"800-332-7143",
+            "defaultEmail":"support@centerpointenergy.com"
+        }
+    },
+    "customerType":"B",
+    "smartMeterBool":false,
+    "termsAndConditionsBool":true
+}

@@ -1,0 +1,91 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:outputText value="Choose from the Plans below:" styleClass="bigStyle" style="color:#333366;"/>
+    <p:dataTable value="#{providerController.repProductsList}" var="product" style="margin-top:10px;"
+                 border="1" cellpadding="3" cellspacing="0"
+                 sortBy="#{product.savingsPercentage}" sortOrder="DESCENDING">
+        <f:facet name="header">
+            <h:outputText value="Total #{fn:length(providerController.repProductsList)} plans found"/>
+        </f:facet>
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Select"/>
+            </f:facet>
+            <p:commandButton id="iconButton" action="#{providerController.customerRegistrationAction(product)}"
+                             update="@form" title="Click to Select Product [#{product.productName}]"
+                             icon="ui-icon-check"/>
+        </p:column>
+        <p:column sortBy="#{product.productName}" filterBy="#{product.productName}" filterValue="startsWith">
+            <f:facet name="header">
+                <h:outputText value="Plan Name"/>
+            </f:facet>
+            <h:outputText value="#{product.productName}" styleClass="boldOnly"/>
+        </p:column>
+        <p:column sortBy="#{product.rep.repName}" filterBy="#{product.rep.repName}" filterValue="startsWith">
+            <f:facet name="header">
+                <h:outputText value="Provider"/>
+            </f:facet>
+            <h:outputText value="#{product.rep.repName}"/>
+        </p:column>
+        <p:column sortBy="#{product.energyType}" filterBy="#{product.energyType}" filterValue="startsWith">
+            <f:facet name="header">
+                <h:outputText value="Energy Type"/>
+            </f:facet>
+            <h:outputText value="#{product.energyType}"/>
+        </p:column>
+        <p:column sortBy="#{product.contractTerm}">
+            <f:facet name="header">
+                <h:outputText value="Contract"/>
+                <br/>
+                <h:outputText value="Term"/>
+            </f:facet>
+            <h:outputText value="#{product.contractTerm}"/>
+        </p:column>
+        <p:column sortBy="#{product.earlyCancelFees}">
+            <f:facet name="header">
+                <h:outputText value="Early Cancel"/>
+                <br/>
+                <h:outputText value="Fees ($)"/>
+            </f:facet>
+            <h:outputText value="#{product.earlyCancelFees}"/>
+        </p:column>
+        <p:column sortBy="#{product.validTo}">
+            <f:facet name="header">
+                <h:outputText value="Valid Upto"/>
+            </f:facet>
+            <h:outputText value="#{product.validTo}">
+                <f:convertDateTime pattern="MM/dd/yyyy" timeZone="CST"/>
+            </h:outputText>
+        </p:column>
+        <p:column sortBy="#{product.pricingType}" filterBy="#{product.pricingType}" filterValue="startsWith">
+            <f:facet name="header">
+                <h:outputText value="Pricing Type"/>
+            </f:facet>
+            <h:outputText value="#{product.pricingType}"/>
+        </p:column>
+        <p:column sortBy="#{product.savingsPercentage}">
+            <f:facet name="header">
+                <h:outputText value="Savings (%)"/>
+            </f:facet>
+            <h:outputText value="#{product.savingsPercentage}" styleClass="boldOnly"
+                          style="color:#{product.savingsPercentage ge 0 ? 'black' : 'red'};">
+                <f:convertNumber maxFractionDigits="2"/>
+            </h:outputText>
+        </p:column>
+        <p:column sortBy="#{product.rate}">
+            <f:facet name="header">
+                <h:outputText value="Rate"/>
+                <br/>
+                <h:outputText value="(c/KWH)"/>
+            </f:facet>
+            <h:outputText value="#{product.rate}">
+                <f:convertNumber maxFractionDigits="2"/>
+            </h:outputText>
+        </p:column>
+    </p:dataTable>
+
+</ui:composition>

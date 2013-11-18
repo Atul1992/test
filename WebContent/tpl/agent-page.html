@@ -1,0 +1,35 @@
+<!-- header -->
+<div data-role="header" id="header">
+    <a href="#" data-icon="delete" data-theme="b" data-role="button" id="logout">Logout</a>
+    <h1>
+        <a href="#">
+            <img src="img/logo_innowatts.png" width="145" height="65"/>
+        </a>
+    </h1>
+</div>
+<div id="line"><%=customerType%></div>
+<div data-role="navbar">
+    <ul>
+        <li>
+            <a class="ui-btn-active">Logged in Agent: <%= agent.contactName %></a>
+        </li>
+    </ul>
+</div>
+<div data-role="content">
+    <div data-role="fieldcontain">
+        <ui id="agentOptions" name="agentOptions" data-role="listview"
+            data-inset="true" data-theme="b">
+            <li>
+                New Residential Customer
+            </li>
+            <li>
+                New Commercial Customer
+            </li>
+        </ui>
+    </div>
+</div>
+<!-- footer -->
+<div data-role="footer" id="footer" data-position="fixed" data-theme="d">
+    <h4 style="font-size:11px;"><%=config.copyright%></h4>
+
+</div>

@@ -1,0 +1,77 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                template="layout/template.xhtml">
+
+    <ui:define name="title">
+        <h:outputText value="Search Providers"/>
+    </ui:define>
+    <ui:define name="javascript">
+        <script type="text/javascript">
+            jQuery(document).ready(function(){
+                jQuery("#zipCode").focus();
+            });
+        </script>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="providerForm" prependId="false">
+            <p:menubar rendered="#{not empty providerController.agentLoginContact}" style="margin-bottom:10px;background-color:lightyellow;">
+                <p:menuitem value="Agent Home" icon="ui-icon-home" ajax="false" immediate="true"
+                            action="/pages/agentHome?faces-redirect=true"/>
+                <f:facet name="options">
+                    <p:outputPanel>
+                        <h:outputText value="Logged in Agent: "/>
+                        <h:outputText value="#{providerController.agentLoginContact.contactName}" styleClass="boldOnly"/>
+                        <p:spacer width="10"/>
+                        <h:outputText value="Email: "/>
+                        <h:outputText value="#{providerController.agentLoginContact.email}" styleClass="boldOnly"/>
+                    </p:outputPanel>
+                </f:facet>
+            </p:menubar>
+            <p:outputPanel layout="block" id="mainPanel">
+                <p:outputPanel layout="block" style="margin-top:5px;margin-bottom:5px;text-align:center;font-size:20px;font-weight:bold;font-style:italic;"
+                               rendered="#{providerController.step gt 1}">
+                    <h:outputText value="Residential Enrollment" style="color:#8a2be2;"
+                                  rendered="#{providerController.enrollment.customerType eq 'R'}"/>
+                    <h:outputText value=" - Matrix" style="color:#8a2be2;"
+                                  rendered="#{providerController.enrollment.customerType eq 'R' and providerController.enrollment.enrollmentType eq 'M'}"/>
+                    <h:outputText value="Commercial Enrollment" style="color:#006400;"
+                                  rendered="#{providerController.enrollment.customerType eq 'B'}"/>
+                    <h:outputText value=" - Matrix" style="color:#006400;"
+                                  rendered="#{providerController.enrollment.customerType eq 'B' and providerController.enrollment.enrollmentType eq 'M'}"/>
+                    <h:outputText value=" - Customized" style="color:#006400;"
+                                  rendered="#{providerController.enrollment.customerType eq 'B' and providerController.enrollment.enrollmentType eq 'C'}"/>
+                </p:outputPanel>
+
+                <p:outputPanel rendered="#{providerController.step eq 1}">
+                    <ui:include src="pages/searchProvidersStep1.xhtml"/>
+                </p:outputPanel>
+
+                <p:outputPanel rendered="#{providerController.step eq 2}">
+                    <ui:include src="pages/searchProvidersStep2.xhtml"/>
+                </p:outputPanel>
+
+                <p:outputPanel rendered="#{providerController.step eq 3}">
+                    <ui:include src="pages/searchProvidersStep3.xhtml"/>
+                </p:outputPanel>
+
+                <p:outputPanel rendered="#{providerController.step eq 4}">
+                    <ui:include src="pages/searchProvidersStep4.xhtml"/>
+                </p:outputPanel>
+
+                <p:outputPanel rendered="#{providerController.step eq 5}">
+                    <ui:include src="pages/searchProvidersStep5.xhtml"/>
+                </p:outputPanel>
+
+                <p:outputPanel layout="block" style="margin-top:10px;">
+                    <p:commandButton value="Back" immediate="true" rendered="#{providerController.step ge 2 and providerController.step le 4}"
+                                     action="#{providerController.decrementStep}" update="mainPanel"/>
+                </p:outputPanel>
+            </p:outputPanel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:fieldset legend="Zip Code Search">
+        <p:messages id="step1Messages"/>
+        <h:panelGrid id="zipCodePanelGrid" border="0" width="50%" cellpadding="4"
+                     cellspacing="0" columns="2" style="margin-top:15px;" columnClasses="col1, col5">
+            <h:panelGroup>
+                <h:outputText value="Enter Zip Code:" styleClass="boldOnly"/>
+                <h:outputText style="color:red" value="*  "/>
+            </h:panelGroup>
+            <p:inputMask id="zipCode" label="Zip Code" value="#{providerController.zipCode}"
+                         required="true" mask="99999" size="15" title="Enter your 5 digit Zip Code"/>
+        </h:panelGrid>
+        <p:outputPanel layout="block" style="margin-top:10px;">
+            <p:commandButton id="searchResidentialButton" update="@form"
+                             action="#{providerController.commercialResidentialAction('R')}"
+                             icon="ui-icon-check" value="Residential" oncomplete="jQuery('input:enabled').focus();"/>
+            <p:commandButton id="searchCommercialButton" update="@form"
+                             action="#{providerController.commercialResidentialAction('B')}"
+                             icon="ui-icon-check" value="Commercial"/>
+        </p:outputPanel>
+    </p:fieldset>
+
+</ui:composition>

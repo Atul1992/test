@@ -1,0 +1,12 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:outputPanel rendered="#{providerController.enrollment.customerType eq 'R'}">
+        <ui:include src="residentialRegistration.xhtml"/>
+    </p:outputPanel>
+    <p:outputPanel rendered="#{providerController.enrollment.customerType eq 'B'}">
+        <ui:include src="commercialRegistration.xhtml"/>
+    </p:outputPanel>
+
+</ui:composition>

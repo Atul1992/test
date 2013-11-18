@@ -1,0 +1,76 @@
+<!-- header -->
+<div data-role="header" id="header">
+    <a id="tdspBackBtn" data-icon="back" data-theme="b" data-role="button">Back</a>
+    <h1>
+        <a href="#">
+            <img src="img/logo_innowatts.png" width="145" height="65"/>
+        </a>
+    </h1>
+    <a id="homeBtn" href="#" data-icon="home" data-theme="b" data-role="button">Home</a>
+</div>
+<div id="line">Product Selection</div>
+<div data-role="content">
+    <div data-role="collapsible" data-theme="b" data-content-theme="e"
+         data-collapsed="false" data-collapsed-icon="arrow-d"
+         data-expanded-icon="arrow-u" data-iconpos="right" data-inset="false">
+        <h2>Your selection</h2>
+        <p>
+            <strong>Zip Code: </strong><%=zipCode%>
+        </p>
+        <% if(currentRate) { %>
+        <p>
+            <strong>Current Rate: </strong><%=currentRate%> &cent;/KWh
+        </p>
+        <% }; %>
+    </div>
+    <br/>
+    <ul data-role="listview" data-inset="true" data-filter="true"
+        data-filter-placeholder="Filter products"
+        data-theme="d" data-divider-theme="b">
+        <%
+        _.each(tdsps, function (tdsp) {
+        %>
+        <li data-role="list-divider"><%= tdsp.edcName %></li>
+        <%
+        _.each(products, function(product) {
+        if(product.edcTdsp.edcId == tdsp.edcId) {
+        %>
+        <li>
+            <a id="<%= product.productId %>">
+                <h1 style='color:#333366;'><%= product.productName %></h1>
+                <p>
+                    <span class="bold">
+                        <%= product.rep.repName %>
+                    </span>
+                    -
+                    <span style="color:#8b0000;">
+                        <%= product.energyType %>
+                    </span>
+                </p>
+                <p>
+                    <span class="bold">
+                        Early Cancellation:
+                    </span>
+                    $<%= product.earlyCancelFees %>
+                </p>
+                <p>
+                    <span style="font-style:italic;">
+                        <%= product.pricingType %>
+                    </span>
+                </p>
+                <p class="ui-li-aside">
+                    <strong><%= product.rate %></strong>&cent;/KWh</p>
+            </a>
+            <!--<a href="#register/<%= product.productId %>">-->
+                <!--<%= product.productName %>-->
+            <!--</a>-->
+        </li>
+        <%}});%>
+        <% });%>
+    </ul>
+</div>
+<!-- footer -->
+<div data-role="footer" id="footer" data-position="fixed" data-theme="d">
+    <h4 style="font-size:11px;"><%=config.copyright%></h4>
+
+</div>

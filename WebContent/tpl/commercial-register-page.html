@@ -1,0 +1,314 @@
+<!-- header -->
+<div data-role="header" id="header">
+    <a id="back" data-icon="back" data-theme="b" data-role="button">Back</a>
+    <h1>
+        <a href="#">
+            <img src="img/logo_innowatts.png" width="145" height="65"/>
+        </a>
+    </h1>
+    <a id="homeBtn" href="#" data-icon="home" data-theme="b" data-role="button">Home</a>
+</div>
+<div id="line">
+    <%= customerType %> Registration -
+    <% if(matrix) { %>
+    Matrix
+    <% } else {%>
+    Customized
+    <% }; %>
+</div>
+<div data-role="content">
+    <div data-role="collapsible" data-theme="b" data-content-theme="e"
+         data-collapsed="true" data-collapsed-icon="arrow-d"
+            data-expanded-icon="arrow-u" data-iconpos="right" data-inset="false">
+        <h2>Your selection</h2>
+        <p>
+            Zip Code: <%=zipCode%>
+        </p>
+        <p>
+            Billed Month: <%=billedMonth%>
+        </p>
+        <p>
+            Billed Usage: <%=billedUsage%> KWh
+        </p>
+        <p>
+            Billed Peak Demand: <%=billedPeakDemand%> KW
+        </p>
+        <% if(matrix) { %>
+            <p>
+                TDSP/EDC: <%=selectedProduct.edcTdsp.edcName%>
+            </p>
+            <p>
+                REP: <%=selectedProduct.rep.repName%>
+            </p>
+            <p>
+                Product: <%=selectedProduct.productName%>
+            </p>
+            <p>
+                Energy Type: <%=selectedProduct.energyType%>
+            </p>
+            <p>
+                Rate: <%=selectedProduct.rate%> (cents/KWh)
+            </p>
+        <% }; %>
+    </div>
+    <br/>
+    <ul data-role="listview" id="loginDetails">
+        <li data-role="list-divider">Login Information</li>
+        <li data-role="fieldcontain">
+            <label for="email">Email: <span class="required">*</span></label>
+            <input type="email" name="email" id="email" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="password">Password: <span class="required">*</span></label>
+            <input type="password" name="password" id="password" value="" />
+        </li>
+        <li data-role="list-divider">General Information</li>
+        <li data-role="fieldcontain">
+            <label for="companyName">Company Name: <span class="required">*</span></label>
+            <input type="text" name="companyName" id="companyName" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="businessType">Business Type: </label>
+            <input type="text" name="businessType" id="businessType"
+                   value="<%= selectedBusinessType.businessTypeName %>" readonly="true"/>
+        </li>
+        <li data-role="fieldcontain">
+            <label for="billingPhoneNo">Phone: <span class="required">*</span></label>
+            <input type="tel" name="billingPhoneNo" id="billingPhoneNo" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="mobilePhoneNo">Mobile: </label>
+            <input type="tel" name="mobilePhoneNo" id="mobilePhoneNo" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="faxNo">Fax: </label>
+            <input type="tel" name="faxNo" id="faxNo" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="federalTaxID">Federal Tax ID: <span class="required">*</span></label>
+            <input type="text" name="federalTaxID" id="federalTaxID" value="" maxlength="9"/>
+        </li>
+        <li data-role="fieldcontain">
+            <label for="serviceStartDate">Service Start Date: <span class="required">*</span></label>
+            <input type="date" name="serviceStartDate" id="serviceStartDate" value="" data-role="datebox"
+                   data-options="{'mode': 'calbox', 'disableManualInput': true}"/>
+        </li>
+        <li data-role="list-divider">Billing Address</li>
+        <li data-role="fieldcontain">
+            <label for="billingAddressLine1">Address Line 1: <span class="required">*</span></label>
+            <input type="text" name="billingAddressLine1" id="billingAddressLine1" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="billingAddressLine2">Address Line 2: </label>
+            <input type="text" name="billingAddressLine2" id="billingAddressLine2" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="billingCity">City: <span class="required">*</span></label>
+            <input type="text" name="billingCity" id="billingCity" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="billingState">State: <span class="required">*</span></label>
+            <select id="billingState" name="billingState">
+                <option value="">--Select--</option>
+                <option value="CA">California (CA)</option>
+                <option value="TX" selected>Texas (TX)</option>
+            </select>
+        </li>
+        <li data-role="fieldcontain">
+            <label for="billingZip">Zip Code: <span class="required">*</span></label>
+            <input type="text" name="billingZip" id="billingZip" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="billingCountry">Country: <span class="required">*</span></label>
+            <select id="billingCountry" name="billingCountry">
+                <option value="">--Select--</option>
+                <option value="USA" selected>USA</option>
+            </select>
+        </li>
+        <li data-role="list-divider">Service Address</li>
+        <li data-role="fieldcontain">
+            <label for="sameAsBilling">Same as Billing</label>
+            <input type="checkbox" id="sameAsBilling" name="sameAsBilling">
+        </li>
+        <li data-role="fieldcontain">
+            <label for="serviceContactName">Contact Name: </label>
+            <input type="text" name="serviceContactName" id="serviceContactName" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="serviceAddressLine1">Address Line 1: <span class="required">*</span></label>
+            <input type="text" name="serviceAddressLine1" id="serviceAddressLine1" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="serviceAddressLine2">Address Line 2: </label>
+            <input type="text" name="serviceAddressLine2" id="serviceAddressLine2" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="serviceCity">City: <span class="required">*</span></label>
+            <input type="text" name="serviceCity" id="serviceCity" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="serviceState">State: <span class="required">*</span></label>
+            <select id="serviceState" name="serviceState">
+                <option value="">--Select--</option>
+                <option value="CA">California (CA)</option>
+                <option value="TX" selected>Texas (TX)</option>
+            </select>
+        </li>
+        <li data-role="fieldcontain">
+            <label for="serviceZip">Zip Code: <span class="required">*</span></label>
+            <input type="text" name="serviceZip" id="serviceZip" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="serviceCountry">Country: <span class="required">*</span></label>
+            <select id="serviceCountry" name="serviceCountry">
+                <option value="">--Select--</option>
+                <option value="USA" selected>USA</option>
+            </select>
+        </li>
+        <li data-role="fieldcontain">
+            <label for="utilityAccountNo">Utility Account No: </label>
+            <input type="text" name="utilityAccountNo" id="utilityAccountNo" value="" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="esi">ESI: </label>
+            <input type="text" name="esi" id="esi" value="" />
+        </li>
+        <% if(customized) { %>
+            <li data-role="list-divider">Letter of Authorization</li>
+            <li data-role="fieldcontain">
+                <label for="loaFirstName">LOA Personal First Name: <span class="required">*</span></label>
+                <input type="text" name="loaFirstName" id="loaFirstName" value="" />
+            </li>
+            <li data-role="fieldcontain">
+                <label for="loaLastName">LOA Personal Last Name: </label>
+                <input type="text" name="loaLastName" id="loaLastName" value="" />
+            </li>
+            <li data-role="fieldcontain">
+                <label for="loaTitle">LOA Personal Title: </label>
+                <input type="text" name="loaTitle" id="loaTitle" value="" />
+            </li>
+            <li data-role="list-divider">LOA Contact Address</li>
+            <li data-role="fieldcontain">
+                <label for="loaSameAsBilling">Same as Billing</label>
+                <input type="checkbox" id="loaSameAsBilling" name="loaSameAsBilling">
+            </li>
+            <li data-role="fieldcontain">
+                <label for="loaAddressLine1">Address Line 1: <span class="required">*</span></label>
+                <input type="text" name="loaAddressLine1" id="loaAddressLine1" value="" />
+            </li>
+            <li data-role="fieldcontain">
+                <label for="loaAddressLine2">Address Line 2: </label>
+                <input type="text" name="loaAddressLine2" id="loaAddressLine2" value="" />
+            </li>
+            <li data-role="fieldcontain">
+                <label for="loaCity">City: <span class="required">*</span></label>
+                <input type="text" name="loaCity" id="loaCity" value="" />
+            </li>
+            <li data-role="fieldcontain">
+                <label for="loaState">State: <span class="required">*</span></label>
+                <select id="loaState" name="loaState">
+                    <option value="">--Select--</option>
+                    <option value="CA">California (CA)</option>
+                    <option value="TX" selected>Texas (TX)</option>
+                </select>
+            </li>
+            <li data-role="fieldcontain">
+                <label for="loaZip">Zip Code: <span class="required">*</span></label>
+                <input type="text" name="loaZip" id="loaZip" value="" />
+            </li>
+            <li data-role="fieldcontain">
+                <label for="loaCountry">Country: <span class="required">*</span></label>
+                <select id="loaCountry" name="loaCountry">
+                    <option value="">--Select--</option>
+                    <option value="USA" selected>USA</option>
+                </select>
+            </li>
+            <li data-role="fieldcontain">
+                <label for="loaPhoneNo">Phone:</label>
+                <input type="tel" name="loaPhoneNo" id="loaPhoneNo" value="" />
+            </li>
+            <li data-role="fieldcontain">
+                <label for="loaMobilePhoneNo">Mobile: </label>
+                <input type="tel" name="loaMobilePhoneNo" id="loaMobilePhoneNo" value="" />
+            </li>
+            <li data-role="fieldcontain">
+                <label for="loaFaxNo">Fax: </label>
+                <input type="tel" name="loaFaxNo" id="loaFaxNo" value="" />
+            </li>
+            <li data-role="list-divider">Preferences:</li>
+            <li data-role="fieldcontain">
+                <label for="currentRep">Current REP: <span class="required">*</span></label>
+                <select id="currentRep" name="currentRep">
+                    <option value="">--Select--</option>
+                    <% _.each(reps, function(rep) { %>
+                        <option value="<%= rep.repId %>">
+                            <%= rep.repName %>
+                        </option>
+                    <% }); %>
+                </select>
+            </li>
+            <li data-role="fieldcontain">
+                <label for="productType">Product Type: <span class="required">*</span></label>
+                <select id="productType" name="productType">
+                    <option value="">--Select--</option>
+                    <% _.each(productTypes, function(prodType) { %>
+                    <option value="<%= prodType.productTypeId %>">
+                        <%= prodType.description %>
+                    </option>
+                    <% }); %>
+                </select>
+            </li>
+            <li data-role="fieldcontain">
+                <label for="notificationInterval">Notification Interval:</label>
+                <select id="notificationInterval" name="productTerm">
+                    <option value="">--Select--</option>
+                    <option value="Immediately">Immediately</option>
+                </select>
+            </li>
+            <li data-role="fieldcontain">
+                <label for="productTerm">Product Term:</label>
+                <select id="productTerm" name="productTerm">
+                    <option value="">--Select--</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="6 months">6 months</option>
+                    <option value="12 months">12 months</option>
+                    <option value="24 months">24 months</option>
+                </select>
+            </li>
+            <li data-role="fieldcontain">
+                <fieldset data-role="controlgroup">
+                    <legend>What is important to you?</legend>
+                    <input type="checkbox" name="prefSavings" id="prefSavings" class="custom"/>
+                    <label for="prefSavings">Savings</label>
+                    <input type="checkbox" name="prefRewardPoints" id="prefRewardPoints" class="custom"/>
+                    <label for="prefRewardPoints">Reward Points</label>
+                    <input type="checkbox" name="prefCustomerService" id="prefCustomerService" class="custom"/>
+                    <label for="prefCustomerService">Customer Service</label>
+                    <input type="checkbox" name="prefSmartEnegySolutions" id="prefSmartEnegySolutions" class="custom"/>
+                    <label for="prefSmartEnegySolutions">Smart Energy Solutions</label>
+                </fieldset>
+            </li>
+        <% }; %>
+        <li data-role="list-divider">Others:</li>
+        <li data-role="fieldcontain">
+            <label for="smartMeter">Smart Meter: </label>
+            <select name="smartMeter" id="smartMeter" data-role="slider">
+                <option value="N">No</option>
+                <option value="Y">Yes</option>
+            </select>
+        </li>
+        <li data-role="fieldcontain">
+            <label for="termsConditions">I accept terms & conditions</label>
+            <input type="checkbox" id="termsConditions" name="termsConditions">
+        </li>
+    </ul>
+    <li data-role="fieldcontain">
+        <a id="enroll" data-role="button" data-theme="b"
+           data-icon="save" data-iconpos="left">Enroll</a>
+    </li>
+</div>
+<!-- footer -->
+<div data-role="footer" id="footer" data-position="fixed" data-theme="d">
+    <h4 style="font-size:11px;"><%=config.copyright%></h4>
+
+</div>
